@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="userOrders" extends="default" namespace="/userOrders">
+	        <action name="list" class="com.jlsf.action.UserOrdersAction" method="list">
+	           <param name="page.path">userOrders/list</param>
+	           <param name="page.p_c_no">10</param>
+	           <result  name="success">/user/pages/userOrders/list.jsp</result>
+	        </action>
+	        
+	        <action name="selbyname" class="com.jlsf.action.UserOrdersAction" method="selbyname">
+	           <param name="page.path">userOrders/list</param>
+	           <param name="page.p_c_no">10</param>
+	           <result  name="success">/user/pages/userOrders/list.jsp</result>
+	            <result  name="notlog">/user/pages/phone/notlog.jsp</result>
+	        </action>
+	        
+	        <action name="groupSel" class="com.jlsf.action.UserOrdersAction" method="groupSel">
+	           <result  name="success" type="redirect">/userOrders/list</result>
+	        </action>
+	        
+	        <action name="toAdd" class="com.jlsf.action.UserOrdersAction"  method="get">
+	           <result  name="success">/user/pages/userOrders/edit.jsp</result>
+	        </action>
+	        
+	        <action name="save" class="com.jlsf.action.UserOrdersAction" method="save">
+	           <result  name="success" type="redirect">/userOrders/list</result>
+	        </action>
+	        
+	        <action name="toEdit" class="com.jlsf.action.UserTeacherAction" method="get">
+	           <result  name="success">/user/pages/userOrders/edit.jsp</result>
+	        </action>
+	        
+	        <action name="del" class="com.jlsf.action.UserOrdersAction" method="del">
+	           <result  name="success" type="redirect">/userOrders/list</result>
+	        </action>
+	        
+	        <action name="view" class="com.jlsf.action.UserOrdersAction" method="view">
+	           <result  name="success">/user/pages/userOrders/view.jsp</result>
+	        </action>
+	 </package>
+
+</struts>    

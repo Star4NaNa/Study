@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlsf.dao.OrderDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.OrderDetail" >
+    <id column="DETAIL_ID" property="detailId" jdbcType="DECIMAL" />
+    <result column="TICKET_ID" property="ticketId" jdbcType="DECIMAL" />
+    <result column="PRO_ID" property="proId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="ORDER_ISOUT" property="orderIsout" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DETAIL_ID, TICKET_ID, PRO_ID, ORDER_ID, PRICE, ORDER_ISOUT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from JLSF.ORDER_DETAIL
+    where DETAIL_ID = #{detailId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from JLSF.ORDER_DETAIL
+    where DETAIL_ID = #{detailId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.jlsf.entity.OrderDetail" >
+    insert into JLSF.ORDER_DETAIL (DETAIL_ID, TICKET_ID, PRO_ID, 
+      ORDER_ID, PRICE, ORDER_ISOUT
+      )
+    values (#{detailId,jdbcType=DECIMAL}, #{ticketId,jdbcType=DECIMAL}, #{proId,jdbcType=DECIMAL}, 
+      #{orderId,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{orderIsout,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jlsf.entity.OrderDetail" >
+    insert into JLSF.ORDER_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="detailId != null" >
+        DETAIL_ID,
+      </if>
+      <if test="ticketId != null" >
+        TICKET_ID,
+      </if>
+      <if test="proId != null" >
+        PRO_ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="orderIsout != null" >
+        ORDER_ISOUT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="detailId != null" >
+        #{detailId,jdbcType=DECIMAL},
+      </if>
+      <if test="ticketId != null" >
+        #{ticketId,jdbcType=DECIMAL},
+      </if>
+      <if test="proId != null" >
+        #{proId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="orderIsout != null" >
+        #{orderIsout,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.OrderDetail" >
+    update JLSF.ORDER_DETAIL
+    <set >
+      <if test="ticketId != null" >
+        TICKET_ID = #{ticketId,jdbcType=DECIMAL},
+      </if>
+      <if test="proId != null" >
+        PRO_ID = #{proId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="orderIsout != null" >
+        ORDER_ISOUT = #{orderIsout,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where DETAIL_ID = #{detailId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.OrderDetail" >
+    update JLSF.ORDER_DETAIL
+    set TICKET_ID = #{ticketId,jdbcType=DECIMAL},
+      PRO_ID = #{proId,jdbcType=DECIMAL},
+      ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      PRICE = #{price,jdbcType=DECIMAL},
+      ORDER_ISOUT = #{orderIsout,jdbcType=DECIMAL}
+    where DETAIL_ID = #{detailId,jdbcType=DECIMAL}
+  </update>
+</mapper>

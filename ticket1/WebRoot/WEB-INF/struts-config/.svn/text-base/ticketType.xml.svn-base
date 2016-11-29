@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="ticketType" extends="default" namespace="/ticketType">
+	        <action name="list" class="com.jlsf.action.TicketTypeAction" method="list">
+	            <!--  <param name="page.path">ticketType/list</param> -->
+	     
+	           <result  name="success">/manager/pages/ticketType/list.jsp</result>
+	        </action>
+	        <action name="del" class="com.jlsf.action.TicketTypeAction" method="del">
+	           <result  name="success" type="redirect">/ticketType/list</result>
+	        </action>
+	         <action name="addEdit" class="com.jlsf.action.TicketTypeAction" method="addEdit">
+	           <result  name="success" type="redirect">/ticketType/list</result>
+	        </action>
+	 </package>
+
+</struts> 

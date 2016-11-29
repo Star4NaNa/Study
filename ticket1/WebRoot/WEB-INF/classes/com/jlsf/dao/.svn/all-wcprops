@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/program/!svn/ver/1222/ticket1/src/com/jlsf/dao
+END
+BusStationMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/program/!svn/ver/1205/ticket1/src/com/jlsf/dao/BusStationMapper.java
+END
+DriverMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/1043/ticket1/src/com/jlsf/dao/DriverMapper.java
+END
+ClassesMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/987/ticket1/src/com/jlsf/dao/ClassesMapper.java
+END
+OrderDetailMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/program/!svn/ver/103/ticket1/src/com/jlsf/dao/OrderDetailMapper.java
+END
+OrdersMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/1188/ticket1/src/com/jlsf/dao/OrdersMapper.java
+END
+RouteMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/program/!svn/ver/1222/ticket1/src/com/jlsf/dao/RouteMapper.java
+END
+UsersMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/program/!svn/ver/896/ticket1/src/com/jlsf/dao/UsersMapper.java
+END
+CarMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/program/!svn/ver/1064/ticket1/src/com/jlsf/dao/CarMapper.java
+END
+ListPhoneMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/program/!svn/ver/1000/ticket1/src/com/jlsf/dao/ListPhoneMapper.java
+END
+AreaMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/program/!svn/ver/901/ticket1/src/com/jlsf/dao/AreaMapper.java
+END
+TeacherMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/263/ticket1/src/com/jlsf/dao/TeacherMapper.java
+END
+EmployeeMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/program/!svn/ver/1149/ticket1/src/com/jlsf/dao/EmployeeMapper.java
+END
+TicketMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/1210/ticket1/src/com/jlsf/dao/TicketMapper.java
+END
+TicketTypeMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/program/!svn/ver/1039/ticket1/src/com/jlsf/dao/TicketTypeMapper.java
+END
+PassengerMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/program/!svn/ver/674/ticket1/src/com/jlsf/dao/PassengerMapper.java
+END

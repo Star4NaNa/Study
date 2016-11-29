@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+				xmlns:context="http://www.springframework.org/schema/context"  
+				xmlns:aop="http://www.springframework.org/schema/aop"  
+				xmlns:tx="http://www.springframework.org/schema/tx"  
+				xsi:schemaLocation="  
+				http://www.springframework.org/schema/beans  
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/context  
+				http://www.springframework.org/schema/context/spring-context.xsd  
+				http://www.springframework.org/schema/aop  
+				http://www.springframework.org/schema/aop/spring-aop.xsd  
+				http://www.springframework.org/schema/tx  
+				http://www.springframework.org/schema/tx/spring-tx.xsd">  
+
+	<!-- 使用 annotation -->  
+     <context:annotation-config />  
+     <!-- 使用 annotation 自动注册bean,并检查@Controller, @Service, @Repository注解已被注入 -->   
+     <context:component-scan base-package="*" />  
+     
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
+		<property name="url"
+			value="jdbc:oracle:thin:@USER-LO0B634SEK:1521:orcl">
+		</property>
+		<property name="username" value="jlsf"></property>
+		<property name="password" value="jlsf"></property>
+	</bean>
+	
+	<!-- 配置SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
+		<property name="dataSource" ref="dataSource" ></property>
+		<property name="mapperLocations" value="classpath:com/jlsf/entity/*Mapper.xml" />
+		<property name="typeAliasesPackage" value="com.jlsf.entity" />   
+	</bean>
+	
+	<!-- 配置扫描报，加载mapper代理对象 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.jlsf.dao" ></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" /> 
+	</bean>
+	
+</beans>

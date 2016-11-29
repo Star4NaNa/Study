@@ -1,0 +1,2 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<iframe name="upload_frame" src="${pageContext.request.contextPath}/imageForm?imgid=${imgid}&inputid=${inputid}" frameborder="0" style="height:30px;width:240px;"  scrolling="no"></iframe>

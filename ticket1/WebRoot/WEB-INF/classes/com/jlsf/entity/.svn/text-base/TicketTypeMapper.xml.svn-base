@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlsf.dao.TicketTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.TicketType" >
+    <id column="TYPE_ID" property="typeId" jdbcType="DECIMAL" />
+    <result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+    <result column="TYPE_STATUS" property="typeStatus" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TYPE_ID, TYPE_NAME, TYPE_STATUS
+  </sql>
+  
+  
+  <select id="list" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from JLSF.TICKETTYPE
+        <include refid="where" />
+  </select>
+  
+   <select id="listall" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from JLSF.TICKETTYPE
+    <!-- where TYPE_STATUS = 1 -->
+   
+  </select>
+  
+  <sql id="where" >
+	   where 1=1 
+	   <if test="ticketType != null">
+		   <if test="ticketType.typeStatus != null">
+		   and TYPE_STATUS =#{ticketType.typeStatus}
+		   </if>
+		
+	   </if>
+  </sql>
+  
+  <select id="listCount" resultType="java.lang.Integer">
+   select count(1) from JLSF.TICKETTYPE t
+
+  </select>
+  
+   <delete id="deleteBatch" parameterType="java.util.List" >
+    delete ticketType where TYPE_ID in 
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     <foreach collection="list" item="t">
+      #{t.typeId},
+     </foreach>
+     </trim>
+   </delete>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from JLSF.TICKETTYPE
+    where TYPE_ID = #{typeId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.jlsf.entity.TicketType" >
+    insert into JLSF.TICKETTYPE (TYPE_ID, TYPE_NAME, TYPE_STATUS
+      )
+    values (seq_tickettype_id.nextval, #{typeName,jdbcType=VARCHAR}, #{typeStatus,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jlsf.entity.TicketType" >
+    insert into JLSF.TICKETTYPE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="typeId != null" >
+        TYPE_ID,
+      </if>
+      <if test="typeName != null" >
+        TYPE_NAME,
+      </if>
+      <if test="typeStatus != null" >
+        TYPE_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="typeId != null" >
+        #{typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeStatus != null" >
+        #{typeStatus,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.TicketType" >
+    update JLSF.TICKETTYPE
+    <set >
+      <if test="typeName != null" >
+        TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeStatus != null" >
+        TYPE_STATUS = #{typeStatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where TYPE_ID = #{typeId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.TicketType" >
+    update JLSF.TICKETTYPE
+    set TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      TYPE_STATUS = #{typeStatus,jdbcType=DECIMAL}
+    where TYPE_ID = #{typeId,jdbcType=DECIMAL} 
+  </update>
+</mapper>

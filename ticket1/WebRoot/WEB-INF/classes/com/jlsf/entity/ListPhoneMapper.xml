@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlsf.dao.ListPhoneMapper" >
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.ListPhone" >
+    <id column="PHONE_ID" property="phoneId" jdbcType="DECIMAL" />
+    <result column="PHONE_NAME" property="phoneName" jdbcType="VARCHAR" />
+    <result column="PHONE_NUM" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="PHONE_UID" property="phoneUid" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <sql id="pager_start">
+    select * from (
+      select tpager.*,rownum rn from(
+  </sql>
+  
+  <sql id="pager_end">
+     ) tpager
+   ) where rn &gt;= #{page.c_p_c_min_no} and rn &lt;= #{page.c_p_c_max_no}
+  </sql>
+  
+  <sql id="where">
+    where PHONE_UID = #{lPhone.phoneUid}
+      <if test="lPhone != null">
+        <if test="lPhone.phoneName !=null and lPhone.phoneName != ''">
+          and PHONE_NAME like '%'|| #{lPhone.phoneName} ||'%'
+        </if>
+      </if>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    PHONE_ID, PHONE_NAME, PHONE_NUM, PHONE_UID
+  </sql>
+  
+  <delete id="deleteBatch" parameterType="java.util.List" >
+    delete from JLSF.LIST_PHONE where PHONE_ID in
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    <foreach collection="list" item="phone">
+      #{phone.phoneId},
+    </foreach>
+    </trim>
+    
+     </delete>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from JLSF.LIST_PHONE
+    where PHONE_ID = #{phoneId,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="listCount" resultType="java.lang.Integer">
+   select count(1) from LIST_PHONE
+   <include refid="where" />
+  </select>
+  
+  <select id="list" resultMap="BaseResultMap">
+    <include refid="pager_start" />
+   select *
+    from JLSF.LIST_PHONE
+    <include refid="where"/>
+    <include refid="pager_end" />
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from JLSF.LIST_PHONE
+    where PHONE_ID = #{phoneId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.jlsf.entity.ListPhone" >
+    insert into JLSF.LIST_PHONE (PHONE_ID, PHONE_NAME, PHONE_NUM, 
+      PHONE_UID)
+    values (#{phoneId,jdbcType=DECIMAL}, #{phoneName,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
+      #{phoneUid,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jlsf.entity.ListPhone" >
+    insert into JLSF.LIST_PHONE
+    <trim prefix="(" suffix=")" suffixOverrides="," > 
+        PHONE_Id,
+      <if test="phoneName != null" >
+        PHONE_NAME,
+      </if>
+      <if test="phoneNum != null" >
+        PHONE_NUM,
+      </if>
+      <if test="phoneUid != null" >
+        PHONE_UID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >    
+      seq_pro_id.nextval,
+      <if test="phoneName != null" >
+        #{phoneName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneUid != null" >
+        #{phoneUid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.ListPhone" >
+    update JLSF.LIST_PHONE
+    <set >
+      <if test="phoneName != null" >
+        PHONE_NAME = #{phoneName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        PHONE_NUM = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneUid != null" >
+        PHONE_UID = #{phoneUid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where PHONE_ID = #{phoneId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.ListPhone" >
+    update JLSF.LIST_PHONE
+    set PHONE_NAME = #{phoneName,jdbcType=VARCHAR},
+      PHONE_NUM = #{phoneNum,jdbcType=VARCHAR},
+      PHONE_UID = #{phoneUid,jdbcType=DECIMAL}
+    where PHONE_ID = #{phoneId,jdbcType=DECIMAL}
+  </update>
+</mapper>

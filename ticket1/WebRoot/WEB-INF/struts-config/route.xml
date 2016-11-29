@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="route" extends="default" namespace="/route">
+	        <!-- 查询全部带分页 -->
+	        <action name="list" class="com.jlsf.action.RouteAction" method="list">
+	           <param name="page.path">route/list</param>
+	           <param name="page.p_c_no">2</param>
+	           <result  name="success">/manager/pages/route/list.jsp?model=route</result>
+	        </action>
+	        <!--添加  -->
+	         <action name="toAdd" class="com.jlsf.action.RouteAction"  method="get">
+	           <result  name="success">/manager/pages/route/edit.jsp?model=route</result>
+	        </action>
+	        <!--保存修改  -->
+	        <action name="saveEdit" class="com.jlsf.action.RouteAction" method="save">
+	           <result  name="success" type="redirect">/route/list?model=route</result>
+	        </action>
+	        <!-- 修改 -->
+	        <action name="toEdit" class="com.jlsf.action.RouteAction" method="get">
+	           <result  name="success">/manager/pages/route/edit.jsp?model=route</result>
+	        </action>
+	        <!--删除  -->
+	        <action name="del" class="com.jlsf.action.RouteAction" method="del">
+	           <result  name="success" type="redirect">/route/list?model=route</result>
+	        </action>
+	        <!--根据编号查询  -->
+	        <action name="view" class="com.jlsf.action.RouteAction" method="view">
+	           <result  name="success">/manager/pages/route/view.jsp?model=route</result>
+	        </action>
+	 </package>
+
+</struts>   

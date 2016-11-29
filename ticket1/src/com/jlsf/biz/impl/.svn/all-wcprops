@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/program/!svn/ver/1222/ticket1/src/com/jlsf/biz/impl
+END
+AreaBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/program/!svn/ver/900/ticket1/src/com/jlsf/biz/impl/AreaBizImpl.java
+END
+TeacherBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/program/!svn/ver/696/ticket1/src/com/jlsf/biz/impl/TeacherBizImpl.java
+END
+EmployeeBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/program/!svn/ver/1148/ticket1/src/com/jlsf/biz/impl/EmployeeBizImpl.java
+END
+TicketBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/program/!svn/ver/1209/ticket1/src/com/jlsf/biz/impl/TicketBizImpl.java
+END
+TicketTypeBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/program/!svn/ver/1039/ticket1/src/com/jlsf/biz/impl/TicketTypeBizImpl.java
+END
+PassengerBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/program/!svn/ver/672/ticket1/src/com/jlsf/biz/impl/PassengerBizImpl.java
+END
+DriverBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/program/!svn/ver/1044/ticket1/src/com/jlsf/biz/impl/DriverBizImpl.java
+END
+BusStationBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/program/!svn/ver/1205/ticket1/src/com/jlsf/biz/impl/BusStationBizImpl.java
+END
+UserOrdersBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/program/!svn/ver/1187/ticket1/src/com/jlsf/biz/impl/UserOrdersBizImpl.java
+END
+ClassesBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/program/!svn/ver/986/ticket1/src/com/jlsf/biz/impl/ClassesBizImpl.java
+END
+RouteBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/program/!svn/ver/1224/ticket1/src/com/jlsf/biz/impl/RouteBizImpl.java
+END
+OrdersBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/program/!svn/ver/1092/ticket1/src/com/jlsf/biz/impl/OrdersBizImpl.java
+END
+ListPhoneImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/program/!svn/ver/1006/ticket1/src/com/jlsf/biz/impl/ListPhoneImpl.java
+END
+UsersBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/program/!svn/ver/896/ticket1/src/com/jlsf/biz/impl/UsersBizImpl.java
+END
+CarBizImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/program/!svn/ver/1047/ticket1/src/com/jlsf/biz/impl/CarBizImpl.java
+END

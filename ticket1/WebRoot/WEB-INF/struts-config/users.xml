@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="users" extends="user_default" namespace="/users">
+	        <action name="list" class="com.jlsf.action.UsersAction" method="list">
+	           <param name="page.path">users/list</param>
+	           <param name="page.p_c_no">6</param>
+	           <result  name="success">/manager/pages/user/list.jsp</result>
+	        </action>
+	         <action name="addusers" class="com.jlsf.action.UsersAction" method="addusers">
+	           <result  name="success">/user/pages/user/doregist.jsp</result>
+	           <result  name="error">/user/pages/user/failreg.jsp</result>
+	        </action>
+	        <action name="selpwd" class="com.jlsf.action.UsersAction" method="selpwd">
+	           <result  name="success">/user/pages/main.jsp</result>
+	           <result  name="error">/user/pages/user/faillogin.jsp</result>
+	            <result  name="power">/user/pages/user/nopower.jsp</result>
+	        </action>
+	        <action name="seluser" class="com.jlsf.action.UsersAction" method="seluser">
+	           <result  name="success">/user/pages/user/repwd.jsp</result>
+	           <result  name="error">/user/pages/user/failinf.jsp</result>
+	        </action>
+	        
+	        <action name="del" class="com.jlsf.action.UsersAction" method="del">
+	           <result  name="success" type="redirect">/users/list</result>
+	        </action>
+	        
+	        <action name="selectByid" class="com.jlsf.action.UsersAction" method="selectByid">
+	           <result  name="success">/manager/pages/user/edit.jsp</result>
+	        </action>
+	        
+	        <action name="update" class="com.jlsf.action.UsersAction" method="update">
+	           <result  name="success" type="redirect">/users/list</result>
+	        </action>
+	        
+	        <action name="save" class="com.jlsf.action.UsersAction" method="save">
+	           <result  name="success">/user/pages/index.jsp</result>
+	        </action>
+	        
+	        <action name="editpwd" class="com.jlsf.action.UsersAction" method="editpwd">
+	           <result  name="success">/user/pages/index.jsp</result>
+	        </action>
+	        
+	        <action name="setnewpwd" class="com.jlsf.action.UsersAction" method="setnewpwd">
+	           <result  name="success">/user/pages/user/doregist.jsp</result>
+	        </action>
+	        
+	        <action name="selans" class="com.jlsf.action.UsersAction" method="selans">
+	           <result  name="success">/user/pages/user/setnewpwd.jsp</result>
+	           <result  name="error">/user/pages/user/failinf.jsp</result>
+	        </action>
+	        
+	        <action name="stop" class="com.jlsf.action.UsersAction" method="stop">
+	           <result  name="success" type="redirect">/users/list</result>
+	        </action>
+	        
+	 </package>
+	 
+	 <package name="login_users" extends="struts-default" namespace="/users_login">
+	        <action name="login" class="com.jlsf.action.UsersAction" method="selpwd">
+	           <result  name="success">/user/pages/main.jsp</result>
+	           <result  name="error">/user/pages/user/faillogin.jsp</result>
+	           <result  name="power">/user/pages/user/nopower.jsp</result>
+	        </action>
+	 </package>
+
+</struts>    

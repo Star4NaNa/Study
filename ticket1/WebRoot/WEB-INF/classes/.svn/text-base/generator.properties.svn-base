@@ -1,0 +1,8 @@
+project = C\:\\Users\\Administrator\\Workspaces\\MyEclipse 2015\\ticket1\\src
+classPath=C\:\\Users\\Administrator\\Workspaces\\MyEclipse 2015\\ticket1\\WebRoot\\WEB-INF\\lib\\ojdbc6.jar
+jdbc_driver = oracle.jdbc.OracleDriver
+jdbc_url=jdbc:oracle:thin:@USER-LO0B634SEK:1521:orcl
+jdbc_user=jlsf
+jdbc_password=jlsf
+entity = com.jlsf.entity
+dao =com.jlsf.dao

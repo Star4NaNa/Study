@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlsf.dao.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.Employee" >
+    <id column="EMP_ID" property="empId" jdbcType="DECIMAL" />
+    <result column="EMP_NAME" property="empName" jdbcType="VARCHAR" />
+    <result column="EMP_AGE" property="empAge" jdbcType="DECIMAL" />
+    <result column="EMP_AREA" property="empArea" jdbcType="VARCHAR" />
+    <result column="EMP_SEX" property="empSex" jdbcType="VARCHAR" />
+    <result column="EMP_CARDNO" property="empCardno" jdbcType="VARCHAR" />
+    <result column="EMP_USERNAME" property="empUsername" jdbcType="VARCHAR" />
+    <result column="EMP_PASSWORD" property="empPassword" jdbcType="VARCHAR" />
+    <result column="EMP_STATUS" property="empStatus" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="pager_start" >
+   select * from (
+     select tpager.*,rownum rn from(
+  </sql>
+  <sql id="pager_end" >
+      ) tpager
+  ) where rn &gt;= #{page.c_p_c_min_no} and rn &lt;= #{page.c_p_c_max_no} 
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    EMP_ID, EMP_NAME, EMP_AGE, EMP_AREA, EMP_SEX, EMP_CARDNO, EMP_USERNAME, EMP_PASSWORD, 
+    EMP_STATUS
+  </sql>
+  
+  <sql id="where" >
+	   where 1=1 
+	   <if test="employee  != null">
+		   <if test="employee.empName != null and employee.empName != ''">
+		   and e.EMP_NAME like '%'|| #{employee.empName} ||'%'
+		   </if>
+		  <if test="employee.empId != null and employee.empId != ''">
+		   and e.EMP_ID = #{employee.empId}
+		   </if>
+		   <if test="employee.empSex != null and employee.empSex != ''">
+		   and e.EMP_SEX  = #{employee.empSex}
+		   </if>
+	   </if>
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from JLSF.EMPLOYEE
+    where EMP_ID = #{empId,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="list" resultMap="BaseResultMap">
+    <include refid="pager_start" />
+   select 
+   <include refid="Base_Column_List" />
+    from JLSF.EMPLOYEE e
+    <include refid="where" />
+    order by e.EMP_ID 
+    <include refid="pager_end" />
+  </select>
+  
+  <select id="selByName" resultMap="BaseResultMap" parameterType="String" >
+    select 
+   <include refid="Base_Column_List" />
+    from JLSF.EMPLOYEE
+    where EMP_USERNAME = #{empUsername,jdbcType=VARCHAR}
+   </select>
+   
+  <select id="listCount" resultType="java.lang.Integer">
+   select count(1) from EMPLOYEE e
+   <include refid="where" />
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from JLSF.EMPLOYEE
+    where EMP_ID = #{empId,jdbcType=DECIMAL}
+  </delete>
+  
+  <delete id="deleteBatch" parameterType="java.util.List" >
+    delete EMPLOYEE where emp_id in
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    <foreach collection="list" item="employee">
+    #{employee.empId},
+    </foreach>
+    </trim>
+  </delete>
+  
+  <insert id="insert" parameterType="com.jlsf.entity.Employee" >
+    insert into JLSF.EMPLOYEE (EMP_ID, EMP_NAME, EMP_AGE, 
+      EMP_AREA, EMP_SEX, EMP_CARDNO, 
+      EMP_USERNAME, EMP_PASSWORD, EMP_STATUS
+      )
+    values (SEQ_EMPLOYEE.nextval, #{empName,jdbcType=VARCHAR}, #{empAge,jdbcType=DECIMAL}, 
+      #{empArea,jdbcType=VARCHAR}, #{empSex,jdbcType=VARCHAR}, #{empCardno,jdbcType=VARCHAR}, 
+      #{empUsername,jdbcType=VARCHAR}, #{empPassword,jdbcType=VARCHAR}, #{empStatus,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jlsf.entity.Employee" >
+    insert into JLSF.EMPLOYEE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="empId != null" >
+        EMP_ID,
+      </if>
+      <if test="empName != null" >
+        EMP_NAME,
+      </if>
+      <if test="empAge != null" >
+        EMP_AGE,
+      </if>
+      <if test="empArea != null" >
+        EMP_AREA,
+      </if>
+      <if test="empSex != null" >
+        EMP_SEX,
+      </if>
+      <if test="empCardno != null" >
+        EMP_CARDNO,
+      </if>
+      <if test="empUsername != null" >
+        EMP_USERNAME,
+      </if>
+      <if test="empPassword != null" >
+        EMP_PASSWORD,
+      </if>
+      <if test="empStatus != null" >
+        EMP_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="empId != null" >
+        #{empId,jdbcType=DECIMAL},
+      </if>
+      <if test="empName != null" >
+        #{empName,jdbcType=VARCHAR},
+      </if>
+      <if test="empAge != null" >
+        #{empAge,jdbcType=DECIMAL},
+      </if>
+      <if test="empArea != null" >
+        #{empArea,jdbcType=VARCHAR},
+      </if>
+      <if test="empSex != null" >
+        #{empSex,jdbcType=VARCHAR},
+      </if>
+      <if test="empCardno != null" >
+        #{empCardno,jdbcType=VARCHAR},
+      </if>
+      <if test="empUsername != null" >
+        #{empUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="empPassword != null" >
+        #{empPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="empStatus != null" >
+        #{empStatus,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.Employee" >
+    update JLSF.EMPLOYEE
+    <set >
+      <if test="empName != null" >
+        EMP_NAME = #{empName,jdbcType=VARCHAR},
+      </if>
+      <if test="empAge != null" >
+        EMP_AGE = #{empAge,jdbcType=DECIMAL},
+      </if>
+      <if test="empArea != null" >
+        EMP_AREA = #{empArea,jdbcType=VARCHAR},
+      </if>
+      <if test="empSex != null" >
+        EMP_SEX = #{empSex,jdbcType=VARCHAR},
+      </if>
+      <if test="empCardno != null" >
+        EMP_CARDNO = #{empCardno,jdbcType=VARCHAR},
+      </if>
+      <if test="empUsername != null" >
+        EMP_USERNAME = #{empUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="empPassword != null" >
+        EMP_PASSWORD = #{empPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="empStatus != null" >
+        EMP_STATUS = #{empStatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where EMP_ID = #{empId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.Employee" >
+    update JLSF.EMPLOYEE
+    set EMP_NAME = #{empName,jdbcType=VARCHAR},
+      EMP_AGE = #{empAge,jdbcType=DECIMAL},
+      EMP_AREA = #{empArea,jdbcType=VARCHAR},
+      EMP_SEX = #{empSex,jdbcType=VARCHAR},
+      EMP_CARDNO = #{empCardno,jdbcType=VARCHAR},
+      EMP_USERNAME = #{empUsername,jdbcType=VARCHAR},
+      EMP_PASSWORD = #{empPassword,jdbcType=VARCHAR},
+      EMP_STATUS = #{empStatus,jdbcType=DECIMAL}
+    where EMP_ID = #{empId,jdbcType=DECIMAL}
+  </update>
+ 
+  
+</mapper>

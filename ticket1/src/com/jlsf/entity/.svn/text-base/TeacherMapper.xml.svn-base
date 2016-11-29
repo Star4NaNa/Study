@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlsf.dao.TeacherMapper">
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.Teacher" >
+    <id column="TEACHER_ID" property="teacherId" jdbcType="DECIMAL" />
+    <result column="TEACHER_AGE" property="teacherAge" jdbcType="DECIMAL" />
+    <result column="TEACHER_NAME" property="teacherName" jdbcType="VARCHAR" />
+    <result column="TEACHER_NO" property="teacherNo" jdbcType="VARCHAR" />
+    <result column="TEACHER_SEX" property="teacherSex" jdbcType="VARCHAR" />
+    <result column="TEACHER_TEXT" property="teacherText" jdbcType="VARCHAR" />
+    <result column="TEACHER_AREAID" property="areaId" jdbcType="INTEGER" />
+    <result column="areaName" property="areaName" jdbcType="VARCHAR" />
+    <result column="cityAreaName" property="cityAreaName" jdbcType="VARCHAR" />
+    <result column="cityAreaId" property="cityAreaId" jdbcType="INTEGER" />
+    <result column="proAreaName" property="proAreaName" jdbcType="VARCHAR" />
+    <result column="proAreaId" property="proAreaId" jdbcType="INTEGER" />
+    
+  </resultMap>
+  
+  <sql id="pager_start" >
+   select * from (
+     select tpager.*,rownum rn from(
+  </sql>
+  <sql id="pager_end" >
+      ) tpager
+  ) where rn &gt;= #{page.c_p_c_min_no} and rn &lt;= #{page.c_p_c_max_no} 
+  
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    TEACHER_ID, TEACHER_AGE, TEACHER_NAME, TEACHER_NO, TEACHER_SEX, TEACHER_TEXT, TEACHER_AREAID
+  </sql>
+  
+  
+  <sql id="where" >
+	   where 1=1 
+	   <if test="teacher  != null">
+		   <if test="teacher.teacherName != null and teacher.teacherName != ''">
+		   and t.TEACHER_NAME like '%'|| #{teacher.teacherName} ||'%'
+		   </if>
+		  <if test="teacher.teacherNo != null and teacher.teacherNo != ''">
+		   and t.TEACHER_NO like '%'|| #{teacher.teacherNo} ||'%'
+		   </if>
+		   <if test="teacher.teacherSex != null and teacher.teacherSex != ''">
+		   and t.TEACHER_SEX  = #{teacher.teacherSex}
+		   </if>
+	   </if>
+  </sql>
+  
+  <select id="list" resultMap="BaseResultMap">
+    <include refid="pager_start" />
+   select 
+   <include refid="Base_Column_List" />,
+   a.AREA_NAME areaName,city.AREA_NAME cityAreaName,p.AREA_NAME  proAreaName,
+                        city.AREA_ID cityAreaId,p.AREA_ID  proAreaId 
+    from TEACHER t
+    left join area a  on t.teacher_areaid = a.AREA_ID
+    left join area city on a.AREA_PARENTID = city.AREA_ID
+    left join area p on city.AREA_PARENTID = p.AREA_ID
+    <include refid="where" />
+    <include refid="pager_end" />
+  </select>
+  
+  <select id="listCount" resultType="java.lang.Integer">
+   select count(1) from TEACHER t
+   <include refid="where" />
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />,
+   a.AREA_NAME areaName,city.AREA_NAME cityAreaName,p.AREA_NAME  proAreaName,
+                        city.AREA_ID cityAreaId,p.AREA_ID  proAreaId 
+    from TEACHER t
+    left join area a  on t.teacher_areaid = a.AREA_ID
+    left join area city on a.AREA_PARENTID = city.AREA_ID
+    left join area p on city.AREA_PARENTID = p.AREA_ID
+    where TEACHER_ID = #{teacherId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from TEACHER
+    where TEACHER_ID = #{teacherId,jdbcType=DECIMAL}
+  </delete>
+  
+  <delete id="deleteBatch" parameterType="java.util.List" >
+    delete TEACHER where teacher_id in 
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     <foreach collection="list" item="teacher">
+      #{teacher.teacherId},
+     </foreach>
+     </trim>
+  </delete>
+  
+  <insert id="insert" parameterType="com.jlsf.entity.Teacher" >
+    insert into TEACHER (TEACHER_ID, TEACHER_AGE, TEACHER_NAME, 
+      TEACHER_NO, TEACHER_SEX, TEACHER_TEXT,TEACHER_AREAID
+      )
+    values (SEQ_TEACHER.nextval, #{teacherAge,jdbcType=DECIMAL}, #{teacherName,jdbcType=VARCHAR}, 
+      #{teacherNo,jdbcType=VARCHAR}, #{teacherSex,jdbcType=VARCHAR}, #{teacherText,jdbcType=VARCHAR}
+      , #{areaId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jlsf.entity.Teacher" >
+    insert into TEACHER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="teacherId != null" >
+        TEACHER_ID,
+      </if>
+      <if test="teacherAge != null" >
+        TEACHER_AGE,
+      </if>
+      <if test="teacherName != null" >
+        TEACHER_NAME,
+      </if>
+      <if test="teacherNo != null" >
+        TEACHER_NO,
+      </if>
+      <if test="teacherSex != null" >
+        TEACHER_SEX,
+      </if>
+      <if test="teacherText != null" >
+        TEACHER_TEXT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="teacherId != null" >
+        #{teacherId,jdbcType=DECIMAL},
+      </if>
+      <if test="teacherAge != null" >
+        #{teacherAge,jdbcType=DECIMAL},
+      </if>
+      <if test="teacherName != null" >
+        #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherNo != null" >
+        #{teacherNo,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherSex != null" >
+        #{teacherSex,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherText != null" >
+        #{teacherText,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.Teacher" >
+    update TEACHER
+    <set >
+      <if test="teacherAge != null" >
+        TEACHER_AGE = #{teacherAge,jdbcType=DECIMAL},
+      </if>
+      <if test="teacherName != null" >
+        TEACHER_NAME = #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherNo != null" >
+        TEACHER_NO = #{teacherNo,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherSex != null" >
+        TEACHER_SEX = #{teacherSex,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherText != null" >
+        TEACHER_TEXT = #{teacherText,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        TEACHER_AREAID = #{areaId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where TEACHER_ID = #{teacherId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.Teacher" >
+    update TEACHER
+    set TEACHER_AGE = #{teacherAge,jdbcType=DECIMAL},
+      TEACHER_NAME = #{teacherName,jdbcType=VARCHAR},
+      TEACHER_NO = #{teacherNo,jdbcType=VARCHAR},
+      TEACHER_SEX = #{teacherSex,jdbcType=VARCHAR},
+      TEACHER_TEXT = #{teacherText,jdbcType=VARCHAR}
+      TEACHER_AREAID = #{areaId,jdbcType=INTEGER},
+    where TEACHER_ID = #{teacherId,jdbcType=DECIMAL}
+  </update>
+  
+</mapper>

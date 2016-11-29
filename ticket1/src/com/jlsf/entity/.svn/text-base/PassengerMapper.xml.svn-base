@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlsf.dao.PassengerMapper" >
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.Passenger" >
+    <id column="PRO_ID" property="proId" jdbcType="DECIMAL" />
+    <result column="PRO_NAME" property="proName" jdbcType="VARCHAR" />
+    <result column="PRO_AGE" property="proAge" jdbcType="DECIMAL" />
+    <result column="PRO_SEX" property="proSex" jdbcType="DECIMAL" />
+    <result column="PRO_ADDRESS" property="proAddress" jdbcType="VARCHAR" />
+    <result column="PRO_PHONE" property="proPhone" jdbcType="VARCHAR" />
+    <result column="PRO_NUM" property="proNum" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    PRO_ID, PRO_NAME, PRO_AGE, PRO_SEX, PRO_ADDRESS, PRO_PHONE, PRO_NUM
+  </sql>
+    
+   <sql id="pager_start" >
+     select * from (
+     select tpager.*,rownum rn from(
+  </sql>
+  <sql id="pager_end" >
+      ) tpager
+      ) where rn &gt;= #{page.c_p_c_min_no} and rn &lt;= #{page.c_p_c_max_no} 
+  </sql>
+  
+  <select id="list" resultMap="BaseResultMap">
+    <include refid="pager_start" />
+      select 
+    <include refid="Base_Column_List" />from JLSF.PASSENGER
+    <include refid="pager_end" />
+    
+  </select>
+    
+
+  
+  <select id="listCount" resultType="java.lang.Integer">
+       select count(1) from JLSF.PASSENGER t
+   <!--  <include refid="where" />-->
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from JLSF.PASSENGER
+    where PRO_ID = #{proId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from JLSF.PASSENGER
+    where PRO_ID = #{proId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.jlsf.entity.Passenger" >
+    insert into JLSF.PASSENGER (PRO_ID, PRO_NAME, PRO_AGE, 
+      PRO_SEX, PRO_ADDRESS, PRO_PHONE, 
+      PRO_NUM)
+    values (#{proId,jdbcType=DECIMAL}, #{proName,jdbcType=VARCHAR}, #{proAge,jdbcType=DECIMAL}, 
+      #{proSex,jdbcType=DECIMAL}, #{proAddress,jdbcType=VARCHAR}, #{proPhone,jdbcType=VARCHAR}, 
+      #{proNum,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jlsf.entity.Passenger" >
+    insert into JLSF.PASSENGER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="proId != null" >
+        PRO_ID,
+      </if>
+      <if test="proName != null" >
+        PRO_NAME,
+      </if>
+      <if test="proAge != null" >
+        PRO_AGE,
+      </if>
+      <if test="proSex != null" >
+        PRO_SEX,
+      </if>
+      <if test="proAddress != null" >
+        PRO_ADDRESS,
+      </if>
+      <if test="proPhone != null" >
+        PRO_PHONE,
+      </if>
+      <if test="proNum != null" >
+        PRO_NUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="proId != null" >
+        #{proId,jdbcType=DECIMAL},
+      </if>
+      <if test="proName != null" >
+        #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="proAge != null" >
+        #{proAge,jdbcType=DECIMAL},
+      </if>
+      <if test="proSex != null" >
+        #{proSex,jdbcType=DECIMAL},
+      </if>
+      <if test="proAddress != null" >
+        #{proAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="proPhone != null" >
+        #{proPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="proNum != null" >
+        #{proNum,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.Passenger" >
+    update JLSF.PASSENGER
+    <set >
+      <if test="proName != null" >
+        PRO_NAME = #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="proAge != null" >
+        PRO_AGE = #{proAge,jdbcType=DECIMAL},
+      </if>
+      <if test="proSex != null" >
+        PRO_SEX = #{proSex,jdbcType=DECIMAL},
+      </if>
+      <if test="proAddress != null" >
+        PRO_ADDRESS = #{proAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="proPhone != null" >
+        PRO_PHONE = #{proPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="proNum != null" >
+        PRO_NUM = #{proNum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PRO_ID = #{proId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.Passenger" >
+    update JLSF.PASSENGER
+    set PRO_NAME = #{proName,jdbcType=VARCHAR},
+      PRO_AGE = #{proAge,jdbcType=DECIMAL},
+      PRO_SEX = #{proSex,jdbcType=DECIMAL},
+      PRO_ADDRESS = #{proAddress,jdbcType=VARCHAR},
+      PRO_PHONE = #{proPhone,jdbcType=VARCHAR},
+      PRO_NUM = #{proNum,jdbcType=VARCHAR}
+    where PRO_ID = #{proId,jdbcType=DECIMAL}
+  </update>
+</mapper>

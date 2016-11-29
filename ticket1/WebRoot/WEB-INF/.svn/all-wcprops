@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/program/!svn/ver/1206/ticket1/WebRoot/WEB-INF
+END
+applicationContext.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/program/!svn/ver/43/ticket1/WebRoot/WEB-INF/applicationContext.xml
+END
+web.xml
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/program/!svn/ver/21/ticket1/WebRoot/WEB-INF/web.xml
+END

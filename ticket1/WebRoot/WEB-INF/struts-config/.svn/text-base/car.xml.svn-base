@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="car" extends="default" namespace="/car">
+	        <action name="list" class="com.jlsf.action.CarAction" method="list">
+	         <param name="page.path">car/list</param>
+	           <param name="page.p_c_no">2</param>
+	           <result  name="success">/manager/pages/car/list.jsp</result>
+	        </action>
+	        
+	         <action name="toinsert">
+	           <result  name="success">/manager/pages/car/edit.jsp</result>
+	        </action>
+	        
+	         <action name="save" class="com.jlsf.action.CarAction" method="save">
+	           <result  name="success" type="redirect">/car/list</result>
+	        </action>
+	        
+	        <action name="del" class="com.jlsf.action.CarAction" method="del">
+	           <result  name="success" type="redirect">/car/list</result>
+	        </action>
+	        
+	         <action name="select" class="com.jlsf.action.CarAction" method="select">
+	           <result  name="success">/manager/pages/car/edit.jsp</result>
+	        </action>
+	 </package>
+
+</struts>   

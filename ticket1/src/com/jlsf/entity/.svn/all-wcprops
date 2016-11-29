@@ -1,0 +1,185 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/program/!svn/ver/1222/ticket1/src/com/jlsf/entity
+END
+TeacherMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/program/!svn/ver/565/ticket1/src/com/jlsf/entity/TeacherMapper.xml
+END
+Users.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/program/!svn/ver/545/ticket1/src/com/jlsf/entity/Users.java
+END
+EmployeeMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/program/!svn/ver/1150/ticket1/src/com/jlsf/entity/EmployeeMapper.xml
+END
+ListPhone.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/program/!svn/ver/960/ticket1/src/com/jlsf/entity/ListPhone.java
+END
+Car.java
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/program/!svn/ver/690/ticket1/src/com/jlsf/entity/Car.java
+END
+TicketMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/program/!svn/ver/1211/ticket1/src/com/jlsf/entity/TicketMapper.xml
+END
+Area.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/program/!svn/ver/706/ticket1/src/com/jlsf/entity/Area.java
+END
+TicketTypeMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/program/!svn/ver/1039/ticket1/src/com/jlsf/entity/TicketTypeMapper.xml
+END
+PassengerMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/program/!svn/ver/675/ticket1/src/com/jlsf/entity/PassengerMapper.xml
+END
+Teacher.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/program/!svn/ver/307/ticket1/src/com/jlsf/entity/Teacher.java
+END
+Employee.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/program/!svn/ver/386/ticket1/src/com/jlsf/entity/Employee.java
+END
+DriverMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/program/!svn/ver/1170/ticket1/src/com/jlsf/entity/DriverMapper.xml
+END
+BusStationMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/program/!svn/ver/1203/ticket1/src/com/jlsf/entity/BusStationMapper.xml
+END
+ClassesMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/program/!svn/ver/1229/ticket1/src/com/jlsf/entity/ClassesMapper.xml
+END
+OrderDetailMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/program/!svn/ver/106/ticket1/src/com/jlsf/entity/OrderDetailMapper.xml
+END
+OrdersMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/program/!svn/ver/1194/ticket1/src/com/jlsf/entity/OrdersMapper.xml
+END
+RouteMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/program/!svn/ver/1227/ticket1/src/com/jlsf/entity/RouteMapper.xml
+END
+Ticket.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/program/!svn/ver/1101/ticket1/src/com/jlsf/entity/Ticket.java
+END
+TicketType.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/112/ticket1/src/com/jlsf/entity/TicketType.java
+END
+UsersMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/896/ticket1/src/com/jlsf/entity/UsersMapper.xml
+END
+Passenger.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/program/!svn/ver/930/ticket1/src/com/jlsf/entity/Passenger.java
+END
+ListPhoneMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/program/!svn/ver/1006/ticket1/src/com/jlsf/entity/ListPhoneMapper.xml
+END
+CarMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/program/!svn/ver/1051/ticket1/src/com/jlsf/entity/CarMapper.xml
+END
+Driver.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/program/!svn/ver/1169/ticket1/src/com/jlsf/entity/Driver.java
+END
+BusStation.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/421/ticket1/src/com/jlsf/entity/BusStation.java
+END
+AreaMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/program/!svn/ver/902/ticket1/src/com/jlsf/entity/AreaMapper.xml
+END
+Classes.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/program/!svn/ver/1230/ticket1/src/com/jlsf/entity/Classes.java
+END
+OrderDetail.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/program/!svn/ver/105/ticket1/src/com/jlsf/entity/OrderDetail.java
+END
+Orders.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/program/!svn/ver/1189/ticket1/src/com/jlsf/entity/Orders.java
+END
+Route.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/program/!svn/ver/1131/ticket1/src/com/jlsf/entity/Route.java
+END

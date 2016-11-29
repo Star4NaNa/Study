@@ -1,0 +1,97 @@
+@charset "utf-8";
+/* CSS Document */
+*{ margin:0; padding:0; font-size:100%; }
+html, body{ height:100%; }
+html{ box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; padding:72px 0 33px 0; overflow:hidden;}
+body{font-family:'微软雅黑';font-size:12px; }
+li{ list-style:none; list-style-type:none; }
+img{border:0;}
+table,td{ border-collapse:collapse}
+.header, .footer, .VeryHuo{ position:relative; }
+.header{ height:72px; margin-top:-72px; }
+.footer{ height:33px; }
+.VeryHuo{height:100%; padding-left:201px; }
+.VeryHuo div.leftbar, .VeryHuo div.rightbar{ display:inline; float:left; height:100%; overflow:hidden; }
+.VeryHuo div.leftbar{ width:201px; margin-left:-201px;}
+.VeryHuo div.rightbar{ float:right; width:99.8%; overflow:scroll;}
+
+/*header*/
+.header{background:url(../images/topbg.gif) repeat-x;}
+.headerleft{float:left; width:300px;}
+.headerleft img{margin-top:5px;margin-left:10px;}
+.headerright{float:right;}
+.headerright ul{padding-top:20px; float:right; padding-right:12px;}
+.headerright ul img{vertical-align:middle;}
+.headerright ul li{float:left; padding-left:9px; padding-right:9px; background:url(../images/line.gif) no-repeat right;color:#e9f2f7; }
+.headerright ul li:last-child{background:none;}
+.headerright ul li a{font-size:13px; color:#e9f2f7; line-height:36px; text-decoration:none;}
+.headerright ul li a:hover{color:#fff;}
+
+/*leftl*/
+.leftbar{background:#fff;border-right: 1px solid #1C638F;}
+.lefttop{background:url(../images/lefttop.jpg) no-repeat;width:200px;height:35px;color:#fff;font-size:14px;line-height:36px; font-weight:bold;cursor: pointer;}
+.lefttop img{margin:2px 2px 0px 8px;float:left;}
+
+.leftmenu{background:url(../images/leftline.gif) repeat-y right;}
+.leftmenu dd span{float:left;margin:10px 8px 0 12px;}
+.leftmenu ul li a{ line-height:32px; font-size:13ox; margin-left:20px;font-weight:normal; display:block; height:32px; color:#333; text-decoration:none;
+           background:url(../images/list.gif) no-repeat left; padding-left:15px;}
+/*.leftmenu ul li a:hover{color:red;background:url(../images/list1.gif) no-repeat left;}*/
+.leftmenu ul li a:hover{color:#317EE8;}
+.leftmenu ul li{ background:url(../images/libg.jpg) right repeat-x; line-height:32px; color:#fff;}
+/*.leftmenu ul li:hover{ background:url(../images/libg2.jpg)  right  repeat-x; line-height:30px; color:#fff;}*/
+.hide{display: none;}
+
+/*right*/
+.title{border-bottom:solid 1px #d0dee5;line-height:30px;height:30px; margin-left:10px;}
+.title span{font-weight:bold;font-size:14px; border-bottom:solid 3px #66c9f3;float:left; padding:0 3px; height:30px; line-height:30px;}
+.place{height:36px; background:url(../images/righttop.gif) repeat-x;}
+.place a{color:#333; text-decoration:none;}
+.place span{line-height:36px; font-weight:bold;float:left;}
+.placeul li{float:left; line-height:36px; padding-left:7px; padding-right:12px; background:url(../images/rlist.gif) no-repeat right;}
+.placeul li:last-child{background:none;}
+.rightinfo{padding:8px;}
+.tools{clear:both; height:35px; margin-bottom:8px; margin-left:10px;}
+.toolbar{float:left; margin-top:5px;}
+.toolbar li{background:url(../images/toolbg.gif) repeat-x; line-height:30px; height:30px; border:solid 1px #d3dbde; float:left; padding-right:10px; margin-right:5px;border-radius: 3px;}
+.toolbar li span{float:left; margin-left:10px; margin-right:5px; margin-top:5px;}
+.tablelist{border:solid 1px #cbcbcb; width:800px; margin-left:10px;margin-top:10px;}
+.tablelist th{background:url(../images/th.gif) repeat-x; height:34px; line-height:34px; border-bottom:solid 1px #b6cad2; text-indent:11px; text-align:left;}
+.tablelist td{line-height:35px; text-indent:11px; border-right: dotted 1px #c7c7c7;border-bottom: dotted 1px #c7c7c7;}
+.tablelink{color:#056dae;}
+.tablelist tbody tr.odd{background:#f5f8fa;}
+.tablelist tbody tr:hover{background:#e5ebee;}
+.sort{padding-left:3px;}
+
+/*page*/
+.pagin{margin-top:10px;padding:0 12px; width:810px;}
+.pagin .blue{color:#056dae;font-style:normal;}
+.message{float:left; line-height:30px;}
+.paginList {float:right;}
+.paginList li{background:url(../images/toolbg.gif) repeat-x; line-height:24px; height:24px; border:solid 1px #d3dbde; float:left; padding:0px 10px; margin-right:5px;border-radius: 3px;}
+.paginList li a{text-decoration: none; color:#333;}
+
+.select{width:50px; padding-left:5px; height:24px; line-height:24px; border-top:solid 1px #a7b5bc; border-left:solid 1px #a7b5bc; border-right:solid 1px #ced9df; border-bottom:solid 1px #ced9df; background:url(../images/inputbg.gif) repeat-x;}
+.select option{ text-align:center;}
+.select_search{width:100px;vertical-align:middle;height:26px; margin-left:10px;line-height:26px;padding-bottom:2px;border-top:solid 1px #a7b5bc; border-left:solid 1px #a7b5bc;border-right:solid 1px #ced9df; border-bottom:solid 1px #ced9df; background:url(../images/inputbg.gif) repeat-x; }
+.select_search option{vertical-align:middle;line-height: 26px;}
+.right table{margin-left:10px;}
+.dfinput{width:208px; height:30px; line-height:30px; border-top:solid 1px #a7b5bc; border-left:solid 1px #a7b5bc; border-right:solid 1px #ced9df; border-bottom:solid 1px #ced9df; background:url(../images/inputbg.gif) repeat-x; }
+.xx{color:#C00; font-weight:bold;}
+.textinput{border-top:solid 1px #a7b5bc; border-left:solid 1px #a7b5bc; margin:3px 0;border-right:solid 1px #ced9df; border-bottom:solid 1px #ced9df; background:url(../images/inputbg.gif) repeat-x; padding:10px; width:504px; height:135px; line-height:20px; overflow:hidden;}
+.btn{width:120px;height:35px; background:url(../images/btnbg.png) no-repeat; font-size:14px;font-weight:bold;color:#fff; cursor:pointer; border:0;}
+
+.tb1{border:solid #CCC; border-width:1px 0px 0px 1px; margin:0; margin-left:10px;  margin-top:10px; }
+.tb1 td{border:solid #CCC;border-width:0px 1px 1px 0px; padding:10px 5px;}
+.tbb{margin-left:20px;}
+.tbb td{height:38px;}
+.bottom{background:url(../images/bott.jpg) repeat-x; width:100%;height:33px; line-height:32px; text-align:center; color:#fff; font-weight:bold;position:fixed; bottom:0;}
+
+/*tools*/
+.toolsli{clear:both; overflow:hidden; margin-bottom:20px;}
+.toollist{margin-left:20px; overflow:hidden; float:left;}
+.toollist li{width:66px; text-align:center; float:left; margin-right:32px;}
+.toollist li a{width:65px; height:65px; background:#fafbfb; border-right:solid 1px #dbdbdb;border-bottom:solid 1px #dbdbdb; display:block;}
+.toollist li a:hover{background:#eef4f7;border-right:solid 1px #d0d5d7;border-bottom:solid 1px #d0d5d7;}
+.toollist li h2{line-height:35px;}
+.tooladd{margin-top:25px; width:20px; height:20px; float:left; display:block;}

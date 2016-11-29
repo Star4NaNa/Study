@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/program/!svn/ver/1007/ticket1/WebRoot/user/pages/user
+END
+faillogin.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/program/!svn/ver/926/ticket1/WebRoot/user/pages/user/faillogin.jsp
+END
+edit.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/program/!svn/ver/896/ticket1/WebRoot/user/pages/user/edit.jsp
+END
+failinf.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/926/ticket1/WebRoot/user/pages/user/failinf.jsp
+END
+failreg.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/926/ticket1/WebRoot/user/pages/user/failreg.jsp
+END
+logout.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/1007/ticket1/WebRoot/user/pages/user/logout.jsp
+END
+nopower.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/926/ticket1/WebRoot/user/pages/user/nopower.jsp
+END
+doregist.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/program/!svn/ver/926/ticket1/WebRoot/user/pages/user/doregist.jsp
+END
+editPwd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/935/ticket1/WebRoot/user/pages/user/editPwd.jsp
+END
+setnewpwd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/program/!svn/ver/926/ticket1/WebRoot/user/pages/user/setnewpwd.jsp
+END
+forgetpwd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/program/!svn/ver/846/ticket1/WebRoot/user/pages/user/forgetpwd.jsp
+END
+repwd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/program/!svn/ver/846/ticket1/WebRoot/user/pages/user/repwd.jsp
+END
+detail.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/program/!svn/ver/781/ticket1/WebRoot/user/pages/user/detail.jsp
+END

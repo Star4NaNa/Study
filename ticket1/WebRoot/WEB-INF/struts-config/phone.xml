@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="phone" extends="default" namespace="/phone">
+	        <action name="list" class="com.jlsf.action.ListPhoneAction" method="list">
+	           <param name="page.path">users/list</param>
+	           <param name="page.p_c_no">6</param>
+	           <result  name="success">/user/pages/phone/list.jsp</result>
+	           <result  name="notlog">/user/pages/phone/notlog.jsp</result>
+	         </action>	 
+	         
+	         <action name="del" class="com.jlsf.action.ListPhoneAction" method="del">
+	           <result name="success" type="redirect">/phone/list</result>
+	         </action>
+	         
+	         <action name="edit" class="com.jlsf.action.ListPhoneAction" method="edit">
+	           <result name="success">/user/pages/phone/edit.jsp</result>
+	         </action>
+	         
+	         <action name="update" class="com.jlsf.action.ListPhoneAction" method="update">
+	           <result name="success" type="redirect">/phone/list</result>
+	         </action>
+	         
+	         <action name="insert" class="com.jlsf.action.ListPhoneAction" method="insert">
+	           <result name="success" type="redirect">/phone/list</result>
+	         </action>
+	                
+	 </package>
+
+</struts>    

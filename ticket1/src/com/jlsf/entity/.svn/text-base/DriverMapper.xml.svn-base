@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlsf.dao.DriverMapper" >
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.Driver" >
+    <id column="DRIVER_ID" property="driverId" jdbcType="DECIMAL" />
+    <result column="DRIVER_NAME" property="driverName" jdbcType="VARCHAR" />
+    <result column="DRIVER_IDCARD" property="driverIdcard" jdbcType="VARCHAR" />
+    <result column="DRIVER_SEX" property="driverSex" jdbcType="VARCHAR" />
+    <result column="DRIVER_AGE" property="driverAge" jdbcType="DECIMAL" />
+    <result column="DRIVER_TYPE" property="driverType" jdbcType="VARCHAR" />
+    <result column="DRIVER_TELEPHONE" property="driverTelephone" jdbcType="VARCHAR" />
+    <result column="DRIVER_ADDRESS" property="driverAddress" jdbcType="VARCHAR" />
+    <result column="DRIVER_DRUNK" property="driverDrunk" jdbcType="VARCHAR" />
+    <result column="DRIVER_COMMIT" property="driverCommit" jdbcType="VARCHAR" />
+    <result column="DRIVER_DRIVINGYEARS" property="driverDrivingyears" jdbcType="DECIMAL" />
+    <result column="DRIVER_DRIVERSCHOOL" property="driverDriverschool" jdbcType="VARCHAR" />
+    <result column="DRIVER_BEGINDATE" property="driverBegindate" jdbcType="VARCHAR" />
+    <result column="DRIVER_ENDDATE" property="driverEnddate" jdbcType="VARCHAR" />
+    <result column="DRIVER_BODYSTATE" property="driverBodystate" jdbcType="VARCHAR" />
+    <result column="DRIVER_ILLNESS" property="driverIllness" jdbcType="VARCHAR" />
+    <result column="DRIVER_DRIVERCARD" property="driverDrivercard" jdbcType="VARCHAR" />
+
+  </resultMap>
+    <sql id="pager_start" >
+   select * from (
+     select tpager.*,rownum rn from(
+  </sql>
+  <sql id="pager_end" >
+      ) tpager
+  ) where rn &gt;= #{page.c_p_c_min_no} and rn &lt;= #{page.c_p_c_max_no} 
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    DRIVER_ID, DRIVER_NAME, DRIVER_IDCARD, DRIVER_SEX, DRIVER_AGE, DRIVER_TYPE, DRIVER_TELEPHONE, 
+    DRIVER_ADDRESS, DRIVER_DRUNK, DRIVER_COMMIT, DRIVER_DRIVINGYEARS, DRIVER_DRIVERSCHOOL, 
+    DRIVER_BEGINDATE, DRIVER_ENDDATE, DRIVER_BODYSTATE, DRIVER_ILLNESS, DRIVER_DRIVERCARD
+  </sql>
+  
+  <sql id="where" >
+	   where 1=1 
+	   <if test="driver  != null">
+		   <if test="driver.driverIdcard!= null and driver.driverIdcard != ''">
+		   and DRIVER_NAME like '%'|| #{driver.driverIdcard} ||'%'
+		   </if>
+		  <if test="driver.driverTelephone!= null and driver.driverTelephone != ''">
+		   and DRIVER_TELEPHONE like '%'|| #{driver.driverTelephone} ||'%'
+		   </if>
+		   <if test="driver.driverDrivercard!= null and driver.driverDrivercard != ''">
+		   and DRIVER_DRIVERCARD like '%'|| #{driver.driverDrivercard} ||'%'
+		   </if>
+		   <if test="driver.driverName!= null and driver.driverName != ''">
+		   and DRIVER_NAME like '%'|| #{driver.driverName} ||'%'
+		   </if>
+	   </if>
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from JLSF.DRIVER
+    where DRIVER_ID = #{driverId,jdbcType=DECIMAL}
+  </select>
+  
+   <select id="list" resultMap="BaseResultMap" >
+  <include refid="pager_start" />
+    select 
+    <include refid="Base_Column_List" />
+    from JLSF.DRIVER
+    <include refid="where" />
+    order by DRIVER_ID
+    <include refid="pager_end" />
+    
+  </select>
+  
+    <select id="lists" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from JLSF.DRIVER
+    
+  </select>
+  
+  <select id="listCount" resultType="java.lang.Integer">
+   select count(1) from Driver d
+   <include refid="where" />
+   </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from JLSF.DRIVER
+    where DRIVER_ID = #{driverId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.jlsf.entity.Driver" >
+    insert into JLSF.DRIVER (DRIVER_ID, DRIVER_NAME, DRIVER_IDCARD, 
+      DRIVER_SEX, DRIVER_AGE, DRIVER_TYPE, 
+      DRIVER_TELEPHONE, DRIVER_ADDRESS, DRIVER_DRUNK, 
+      DRIVER_COMMIT, DRIVER_DRIVINGYEARS, DRIVER_DRIVERSCHOOL, 
+      DRIVER_BEGINDATE, DRIVER_ENDDATE, DRIVER_BODYSTATE, 
+      DRIVER_ILLNESS, DRIVER_DRIVERCARD)
+    values (seu_driver_id.nextval, #{driverName,jdbcType=VARCHAR}, #{driverIdcard,jdbcType=VARCHAR}, 
+      #{driverSex,jdbcType=VARCHAR}, #{driverAge,jdbcType=DECIMAL}, #{driverType,jdbcType=VARCHAR}, 
+      #{driverTelephone,jdbcType=VARCHAR}, #{driverAddress,jdbcType=VARCHAR}, #{driverDrunk,jdbcType=VARCHAR}, 
+      #{driverCommit,jdbcType=VARCHAR}, #{driverDrivingyears,jdbcType=DECIMAL}, #{driverDriverschool,jdbcType=VARCHAR}, 
+      #{driverBegindate,jdbcType=VARCHAR}, #{driverEnddate,jdbcType=VARCHAR}, #{driverBodystate,jdbcType=VARCHAR}, 
+      #{driverIllness,jdbcType=VARCHAR}, #{driverDrivercard,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jlsf.entity.Driver" >
+    insert into JLSF.DRIVER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="driverId != null" >
+        DRIVER_ID,
+      </if>
+      <if test="driverName != null" >
+        DRIVER_NAME,
+      </if>
+      <if test="driverIdcard != null" >
+        DRIVER_IDCARD,
+      </if>
+      <if test="driverSex != null" >
+        DRIVER_SEX,
+      </if>
+      <if test="driverAge != null" >
+        DRIVER_AGE,
+      </if>
+      <if test="driverType != null" >
+        DRIVER_TYPE,
+      </if>
+      <if test="driverTelephone != null" >
+        DRIVER_TELEPHONE,
+      </if>
+      <if test="driverAddress != null" >
+        DRIVER_ADDRESS,
+      </if>
+      <if test="driverDrunk != null" >
+        DRIVER_DRUNK,
+      </if>
+      <if test="driverCommit != null" >
+        DRIVER_COMMIT,
+      </if>
+      <if test="driverDrivingyears != null" >
+        DRIVER_DRIVINGYEARS,
+      </if>
+      <if test="driverDriverschool != null" >
+        DRIVER_DRIVERSCHOOL,
+      </if>
+      <if test="driverBegindate != null" >
+        DRIVER_BEGINDATE,
+      </if>
+      <if test="driverEnddate != null" >
+        DRIVER_ENDDATE,
+      </if>
+      <if test="driverBodystate != null" >
+        DRIVER_BODYSTATE,
+      </if>
+      <if test="driverIllness != null" >
+        DRIVER_ILLNESS,
+      </if>
+      <if test="driverDrivercard != null" >
+        DRIVER_DRIVERCARD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="driverId != null" >
+        #{driverId,jdbcType=DECIMAL},
+      </if>
+      <if test="driverName != null" >
+        #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="driverIdcard != null" >
+        #{driverIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="driverSex != null" >
+        #{driverSex,jdbcType=VARCHAR},
+      </if>
+      <if test="driverAge != null" >
+        #{driverAge,jdbcType=DECIMAL},
+      </if>
+      <if test="driverType != null" >
+        #{driverType,jdbcType=VARCHAR},
+      </if>
+      <if test="driverTelephone != null" >
+        #{driverTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="driverAddress != null" >
+        #{driverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="driverDrunk != null" >
+        #{driverDrunk,jdbcType=VARCHAR},
+      </if>
+      <if test="driverCommit != null" >
+        #{driverCommit,jdbcType=VARCHAR},
+      </if>
+      <if test="driverDrivingyears != null" >
+        #{driverDrivingyears,jdbcType=DECIMAL},
+      </if>
+      <if test="driverDriverschool != null" >
+        #{driverDriverschool,jdbcType=VARCHAR},
+      </if>
+      <if test="driverBegindate != null" >
+        #{driverBegindate,jdbcType=VARCHAR},
+      </if>
+      <if test="driverEnddate != null" >
+        #{driverEnddate,jdbcType=VARCHAR},
+      </if>
+      <if test="driverBodystate != null" >
+        #{driverBodystate,jdbcType=VARCHAR},
+      </if>
+      <if test="driverIllness != null" >
+        #{driverIllness,jdbcType=VARCHAR},
+      </if>
+      <if test="driverDrivercard != null" >
+        #{driverDrivercard,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.Driver" >
+    update JLSF.DRIVER
+    <set >
+      <if test="driverName != null" >
+        DRIVER_NAME = #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="driverIdcard != null" >
+        DRIVER_IDCARD = #{driverIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="driverSex != null" >
+        DRIVER_SEX = #{driverSex,jdbcType=VARCHAR},
+      </if>
+      <if test="driverAge != null" >
+        DRIVER_AGE = #{driverAge,jdbcType=DECIMAL},
+      </if>
+      <if test="driverType != null" >
+        DRIVER_TYPE = #{driverType,jdbcType=VARCHAR},
+      </if>
+      <if test="driverTelephone != null" >
+        DRIVER_TELEPHONE = #{driverTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="driverAddress != null" >
+        DRIVER_ADDRESS = #{driverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="driverDrunk != null" >
+        DRIVER_DRUNK = #{driverDrunk,jdbcType=VARCHAR},
+      </if>
+      <if test="driverCommit != null" >
+        DRIVER_COMMIT = #{driverCommit,jdbcType=VARCHAR},
+      </if>
+      <if test="driverDrivingyears != null" >
+        DRIVER_DRIVINGYEARS = #{driverDrivingyears,jdbcType=DECIMAL},
+      </if>
+      <if test="driverDriverschool != null" >
+        DRIVER_DRIVERSCHOOL = #{driverDriverschool,jdbcType=VARCHAR},
+      </if>
+      <if test="driverBegindate != null" >
+        DRIVER_BEGINDATE = #{driverBegindate,jdbcType=VARCHAR},
+      </if>
+      <if test="driverEnddate != null" >
+        DRIVER_ENDDATE = #{driverEnddate,jdbcType=VARCHAR},
+      </if>
+      <if test="driverBodystate != null" >
+        DRIVER_BODYSTATE = #{driverBodystate,jdbcType=VARCHAR},
+      </if>
+      <if test="driverIllness != null" >
+        DRIVER_ILLNESS = #{driverIllness,jdbcType=VARCHAR},
+      </if>
+      <if test="driverDrivercard != null" >
+        DRIVER_DRIVERCARD = #{driverDrivercard,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DRIVER_ID = #{driverId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.Driver" >
+    update JLSF.DRIVER
+    set DRIVER_NAME = #{driverName,jdbcType=VARCHAR},
+      DRIVER_IDCARD = #{driverIdcard,jdbcType=VARCHAR},
+      DRIVER_SEX = #{driverSex,jdbcType=VARCHAR},
+      DRIVER_AGE = #{driverAge,jdbcType=DECIMAL},
+      DRIVER_TYPE = #{driverType,jdbcType=VARCHAR},
+      DRIVER_TELEPHONE = #{driverTelephone,jdbcType=VARCHAR},
+      DRIVER_ADDRESS = #{driverAddress,jdbcType=VARCHAR},
+      DRIVER_DRUNK = #{driverDrunk,jdbcType=VARCHAR},
+      DRIVER_COMMIT = #{driverCommit,jdbcType=VARCHAR},
+      DRIVER_DRIVINGYEARS = #{driverDrivingyears,jdbcType=DECIMAL},
+      DRIVER_DRIVERSCHOOL = #{driverDriverschool,jdbcType=VARCHAR},
+      DRIVER_BEGINDATE = #{driverBegindate,jdbcType=VARCHAR},
+      DRIVER_ENDDATE = #{driverEnddate,jdbcType=VARCHAR},
+      DRIVER_BODYSTATE = #{driverBodystate,jdbcType=VARCHAR},
+      DRIVER_ILLNESS = #{driverIllness,jdbcType=VARCHAR},
+      DRIVER_DRIVERCARD = #{driverDrivercard,jdbcType=VARCHAR}
+    where DRIVER_ID = #{driverId,jdbcType=DECIMAL}
+  </update>
+  
+  <delete id="deleteBatch" parameterType="java.util.List" >
+    delete DRIVER where driver_id in 
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     <foreach collection="list" item="driver">
+      #{driver.driverId},
+     </foreach>
+     </trim>
+  </delete>
+</mapper>

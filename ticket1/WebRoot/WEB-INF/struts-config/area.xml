@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="area" extends="default" namespace="/area">
+	        <action name="list" class="com.jlsf.action.AreaAction" method="list">
+	        <param name="page.path">area/list</param>
+	           <param name="page.p_c_no">10</param>
+	           <result  name="success">/manager/pages/area/list.jsp?model=basic</result>
+	        </action>
+	        
+	        <action name="toinsert" class="com.jlsf.action.AreaAction"  method="selectByPrimaryKey">
+	           <result  name="success">/manager/pages/area/edit.jsp?model=basic</result>
+	        </action>
+	        
+	        <action name="insert" class="com.jlsf.action.AreaAction" method="insert">
+	           <result  name="success" type="redirect">/area/list?model=basic</result>
+	        </action>
+	        
+	        <action name="toEdit" class="com.jlsf.action.AreaAction" method="selectByPrimaryKey">
+	           <result  name="success">/manager/pages/area/edit.jsp?model=basic</result>
+	        </action>
+	        
+	        <action name="view" class="com.jlsf.action.AreaAction" method="view">
+	           <result  name="success">/manager/pages/area/view.jsp?model=basic</result>
+	        </action>
+	        
+	        <action name="del" class="com.jlsf.action.AreaAction" method="del">
+	           <result  name="success" type="redirect">/area/list?model=basic</result>
+	        </action>
+	 </package>
+
+
+</struts>    

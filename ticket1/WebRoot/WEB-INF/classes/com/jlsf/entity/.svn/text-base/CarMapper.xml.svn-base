@@ -1,0 +1,240 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jlsf.dao.CarMapper">
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.Car">
+    <id column="CAR_ID" jdbcType="INTEGER" property="carId" />
+    <result column="CAR_TYPE" jdbcType="INTEGER" property="carType" />
+    <result column="CAR_OWNER" jdbcType="VARCHAR" property="carOwner" />
+    <result column="CAR_OWNERPHONE" jdbcType="VARCHAR" property="carOwnerphone" />
+    <result column="CAR_OWNERADDRESS" jdbcType="VARCHAR" property="carOwneraddress" />
+    <result column="CAR_USESEATNUM" jdbcType="INTEGER" property="carUseseatnum" />
+    <result column="CAR_SEATNUM" jdbcType="INTEGER" property="carSeatnum" />
+    <result column="CAR_PLATENUM" jdbcType="VARCHAR" property="carPlatenum" />
+    <result column="CAR_DRIVENUM" jdbcType="VARCHAR" property="carDrivenum" />
+    <result column="CAR_AGE" jdbcType="INTEGER" property="carAge" />
+    <result column="CAR_MOTORTYPE" jdbcType="VARCHAR" property="carMotortype" />
+    <result column="CAR_STATUS" jdbcType="VARCHAR" property="carStatus" />
+  </resultMap>
+  
+   <sql id="pager_start" >
+   select * from (
+     select tpager.*,rownum rn from(
+  </sql>
+  <sql id="pager_end" >
+      ) tpager
+  ) where rn &gt;= #{page.c_p_c_min_no} and rn &lt;= #{page.c_p_c_max_no} 
+  </sql>
+  
+  <sql id="Base_Column_List">
+    CAR_ID, CAR_TYPE, CAR_OWNER, CAR_OWNERPHONE, CAR_OWNERADDRESS, CAR_USESEATNUM, CAR_SEATNUM, 
+    CAR_PLATENUM, CAR_DRIVENUM, CAR_AGE, CAR_MOTORTYPE, CAR_STATUS
+  </sql>
+  
+ <sql id="where" >
+	   where 1=1 
+	   <if test="car  != null">
+		   <if test="car.carPlatenum!= null and car.carPlatenum != ''">
+		   and CAR_PLATENUM like '%'|| #{car.carPlatenum} ||'%'
+		   </if>
+		  <if test="car.carOwner!= null and car.carOwner != ''">
+		   and CAR_OWNER like '%'|| #{car.carOwner} ||'%'
+		   </if>
+		   <if test="car.carStatus!= null and car.carStatus != ''">
+		   and CAR_STATUS like '%'|| #{car.carStatus} ||'%'
+		   </if>
+		   <if test="car.carType!= null">
+		   and CAR_TYPE like '%'|| #{car.carType} ||'%'
+		   </if>
+	   </if>
+  </sql>
+  
+  <select id="list" resultMap="BaseResultMap" >
+  <include refid="pager_start" />
+    select 
+    <include refid="Base_Column_List" />
+    from JLSF.CAR
+    <include refid="where" />
+    <include refid="pager_end" />
+    order by CAR_ID
+  </select>
+  
+   <select id="listCount" resultType="java.lang.Integer">
+   select count(1) from CAR c
+   <include refid="where" />
+   </select>
+  <select id="list1" resultMap="BaseResultMap">
+   select 
+   <include refid="Base_Column_List" />
+   from JLSF.CAR
+   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from JLSF.CAR
+    
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from JLSF.CAR
+    where CAR_ID = #{carId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.jlsf.entity.Car">
+    insert into JLSF.CAR (CAR_ID, CAR_TYPE, CAR_OWNER, 
+      CAR_OWNERPHONE, CAR_OWNERADDRESS, CAR_USESEATNUM, 
+      CAR_SEATNUM, CAR_PLATENUM, CAR_DRIVENUM, 
+      CAR_AGE, CAR_MOTORTYPE, CAR_STATUS
+      )
+    values (seq_car.nextval, #{carType,jdbcType=INTEGER}, #{carOwner,jdbcType=VARCHAR}, 
+      #{carOwnerphone,jdbcType=VARCHAR}, #{carOwneraddress,jdbcType=VARCHAR}, #{carUseseatnum,jdbcType=INTEGER}, 
+      #{carSeatnum,jdbcType=INTEGER}, #{carPlatenum,jdbcType=VARCHAR}, #{carDrivenum,jdbcType=VARCHAR}, 
+      #{carAge,jdbcType=INTEGER}, #{carMotortype,jdbcType=VARCHAR}, #{carStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.jlsf.entity.Car">
+    insert into JLSF.CAR
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="carId != null">
+        CAR_ID,
+      </if>
+      <if test="carType != null">
+        CAR_TYPE,
+      </if>
+      <if test="carOwner != null">
+        CAR_OWNER,
+      </if>
+      <if test="carOwnerphone != null">
+        CAR_OWNERPHONE,
+      </if>
+      <if test="carOwneraddress != null">
+        CAR_OWNERADDRESS,
+      </if>
+      <if test="carUseseatnum != null">
+        CAR_USESEATNUM,
+      </if>
+      <if test="carSeatnum != null">
+        CAR_SEATNUM,
+      </if>
+      <if test="carPlatenum != null">
+        CAR_PLATENUM,
+      </if>
+      <if test="carDrivenum != null">
+        CAR_DRIVENUM,
+      </if>
+      <if test="carAge != null">
+        CAR_AGE,
+      </if>
+      <if test="carMotortype != null">
+        CAR_MOTORTYPE,
+      </if>
+      <if test="carStatus != null">
+        CAR_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="carId != null">
+        #{carId,jdbcType=INTEGER},
+      </if>
+      <if test="carType != null">
+        #{carType,jdbcType=INTEGER},
+      </if>
+      <if test="carOwner != null">
+        #{carOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="carOwnerphone != null">
+        #{carOwnerphone,jdbcType=VARCHAR},
+      </if>
+      <if test="carOwneraddress != null">
+        #{carOwneraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="carUseseatnum != null">
+        #{carUseseatnum,jdbcType=INTEGER},
+      </if>
+      <if test="carSeatnum != null">
+        #{carSeatnum,jdbcType=INTEGER},
+      </if>
+      <if test="carPlatenum != null">
+        #{carPlatenum,jdbcType=VARCHAR},
+      </if>
+      <if test="carDrivenum != null">
+        #{carDrivenum,jdbcType=VARCHAR},
+      </if>
+      <if test="carAge != null">
+        #{carAge,jdbcType=INTEGER},
+      </if>
+      <if test="carMotortype != null">
+        #{carMotortype,jdbcType=VARCHAR},
+      </if>
+      <if test="carStatus != null">
+        #{carStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.Car">
+    update JLSF.CAR
+    <set>
+      <if test="carType != null">
+        CAR_TYPE = #{carType,jdbcType=INTEGER},
+      </if>
+      <if test="carOwner != null">
+        CAR_OWNER = #{carOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="carOwnerphone != null">
+        CAR_OWNERPHONE = #{carOwnerphone,jdbcType=VARCHAR},
+      </if>
+      <if test="carOwneraddress != null">
+        CAR_OWNERADDRESS = #{carOwneraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="carUseseatnum != null">
+        CAR_USESEATNUM = #{carUseseatnum,jdbcType=INTEGER},
+      </if>
+      <if test="carSeatnum != null">
+        CAR_SEATNUM = #{carSeatnum,jdbcType=INTEGER},
+      </if>
+      <if test="carPlatenum != null">
+        CAR_PLATENUM = #{carPlatenum,jdbcType=VARCHAR},
+      </if>
+      <if test="carDrivenum != null">
+        CAR_DRIVENUM = #{carDrivenum,jdbcType=VARCHAR},
+      </if>
+      <if test="carAge != null">
+        CAR_AGE = #{carAge,jdbcType=INTEGER},
+      </if>
+      <if test="carMotortype != null">
+        CAR_MOTORTYPE = #{carMotortype,jdbcType=VARCHAR},
+      </if>
+      <if test="carStatus != null">
+        CAR_STATUS = #{carStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CAR_ID = #{carId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.Car">
+    update JLSF.CAR
+    set CAR_TYPE = #{carType,jdbcType=INTEGER},
+      CAR_OWNER = #{carOwner,jdbcType=VARCHAR},
+      CAR_OWNERPHONE = #{carOwnerphone,jdbcType=VARCHAR},
+      CAR_OWNERADDRESS = #{carOwneraddress,jdbcType=VARCHAR},
+      CAR_USESEATNUM = #{carUseseatnum,jdbcType=INTEGER},
+      CAR_SEATNUM = #{carSeatnum,jdbcType=INTEGER},
+      CAR_PLATENUM = #{carPlatenum,jdbcType=VARCHAR},
+      CAR_DRIVENUM = #{carDrivenum,jdbcType=VARCHAR},
+      CAR_AGE = #{carAge,jdbcType=INTEGER},
+      CAR_MOTORTYPE = #{carMotortype,jdbcType=VARCHAR},
+      CAR_STATUS = #{carStatus,jdbcType=VARCHAR}
+    where CAR_ID = #{carId,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteBatch" parameterType="java.util.List" >
+    delete CAR where car_id in 
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     <foreach collection="list" item="car">
+      #{car.carId},
+     </foreach>
+     </trim>
+  </delete>
+  
+  
+ </mapper>

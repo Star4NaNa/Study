@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="default" extends="struts-default">
+	       <interceptors>  
+	            <!-- 拦截器栈 --> 
+	            <interceptor name="authority" class="com.jlsf.filter.EmployeeInterceptot"/>
+	            
+	            <interceptor-stack name="defaultStack">  
+		             <interceptor-ref name="authority" /> 
+					 <interceptor-ref name="defaultStack">  
+						  	<param name="exception.logEnabled">true</param>  
+						    <param name="exception.logLevel">error</param>  
+					  </interceptor-ref>
+	            </interceptor-stack> 
+	             
+	        </interceptors>
+	        <default-interceptor-ref name="defaultStack"/>
+	        
+	        <!-- 定义全局Result -->  
+	        <global-results>  
+	            <result name="authority_emp_login">/manager/pages/login.jsp</result>  
+	        </global-results>
+	</package> 
+	
+	<package name="user_default" extends="struts-default">
+	       <interceptors>  
+	            <!-- 拦截器栈 --> 
+	            <interceptor name="user_authority" class="com.jlsf.filter.UserInterceptot"/>   
+	            
+	            <interceptor-stack name="defaultStack">  
+		             <interceptor-ref name="user_authority" /> 
+					 <interceptor-ref name="defaultStack">  
+						  	<param name="exception.logEnabled">true</param>  
+						    <param name="exception.logLevel">error</param>  
+					  </interceptor-ref>
+	            </interceptor-stack> 
+	             
+	        </interceptors>
+	        <default-interceptor-ref name="defaultStack"/>
+	        
+	        <!-- 定义全局Result -->  
+	        <global-results> 
+	            <result name="authority_user_login">/user/pages/login.jsp</result>  
+	        </global-results>
+	</package> 
+	
+	<constant name="struts.i18n.encoding" value="UTF-8"/>
+ 	
+ 	<include file="../struts-config/struts-json.xml"/>
+ 	<include file="../struts-config/teacher.xml"/>
+ 	<include file="../struts-config/busStation.xml"/>
+ 	<include file="../struts-config/car.xml"/>
+ 	<include file="../struts-config/area.xml"/>
+ 	<include file="../struts-config/ticket.xml"/>
+ 	<include file="../struts-config/ticketType.xml"/>
+ 	<include file="../struts-config/users.xml"/>
+    <include file="../struts-config/route.xml"/>
+    <include file="../struts-config/orders.xml"/>
+    <include file="../struts-config/struct.xml"/>
+     <include file="../struts-config/train.xml"/>
+      <include file="../struts-config/passenger.xml"/>
+    <include file="../struts-config/employee.xml"/>
+    <include file="../struts-config/phone.xml"/>
+     <include file="../struts-config/userOrders.xml"/>
+     <include file="../struts-config/classes.xml"/>
+     <include file="../struts-config/driver.xml"/>
+</struts>    

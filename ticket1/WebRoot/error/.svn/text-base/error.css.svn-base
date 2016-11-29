@@ -1,0 +1,21 @@
+﻿
+html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, blockquote, pre, form, fieldset, table, th, td, span{padding:0;margin:0;}
+li{list-style:none;}
+img{border:0;}
+body{color:#333;}
+
+#cott{width:550px;
+      margin:0 auto;
+	  font-size:12px;
+	  padding:20px 0px;
+	  height:300px;
+	  position:absolute;/*层漂浮*/  
+      top:50%;  
+      left:50%;
+	  margin-top:-150px;/*这里必须是DIV高度的一半*/  
+      margin-left:-275px;/*这里是DIV宽度的一半*/ 
+	  overflow:auto;overflow-x:hidden;}
+	  
+#cott p{padding-left:100px;
+        line-height:20px;}
+#cott b{font-size:16px;}

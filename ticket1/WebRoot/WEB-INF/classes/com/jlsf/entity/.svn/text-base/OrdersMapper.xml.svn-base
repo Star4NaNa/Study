@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlsf.dao.OrdersMapper" >
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.Orders" >
+    <id column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+    <result column="ORDER_TIME" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="TICKET_NUM" property="ticketNum" jdbcType="DECIMAL" />
+    <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
+    <result column="ORDER_STATE" property="orderState" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="CLASSES_STARTTIME" property="classesStarttime" jdbcType="VARCHAR" />
+    <result column="STARTSTATION" property="startStation" jdbcType="VARCHAR" />
+    <result column="ENDSTATION" property="endStation" jdbcType="VARCHAR" />
+    <result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+    <result column="TICKET_PRICE" property="ticketPrice" jdbcType="VARCHAR" />
+    <result column="CLASSES_CODE" property="classesCode" jdbcType="VARCHAR" />
+    <result column="USER_RNAME" property="userRname" jdbcType="VARCHAR" />
+
+    <result column="ORDERS_USER_NAME" property="ordersUserName" jdbcType="VARCHAR" /> 
+    <result column="ORDERS_ISOUT" property="orderIsout" jdbcType="VARCHAR" /> 
+    <result column="ORDERS_CLASSES_CODE" property="orderClassesCode" jdbcType="VARCHAR" /> 
+    <result column="ORDERS_START_STATION_NAME" property="orderstartStationName" jdbcType="VARCHAR" /> 
+    <result column="ORDERS_END_STATION_NAME" property="orderendStationName" jdbcType="VARCHAR" /> 
+    <result column="ORDERS_START_TIME" property="orderStartTime" jdbcType="VARCHAR" /> 
+    <result column="ORDERS_END_TIME" property="orderEndTime" jdbcType="VARCHAR" /> 
+    <result column="ORDERS_PRO_NUM" property="orderProNum" jdbcType="VARCHAR" /> 
+    <result column="ORDERS_USER_CARID" property="orderUserCard" jdbcType="VARCHAR" />
+    <result column="ORDERS_ORDER_PRICE" property="orderPrice" jdbcType="INTEGER" />
+    <result column="ORDERS_CAR_NUM" property="orderCarPlateNum" jdbcType="VARCHAR" />
+    <result column="ORDERS_CAR_TYPE" property="orderCarType" jdbcType="INTEGER" />
+    <result column="ORDERS_ROUTE_REMARK" property="orderRouteRemark" jdbcType="VARCHAR" /> 
+    <result column="ORDERS_STATION_REMARK" property="orderStationRemark" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="pager_start" >
+   select * from (
+     select tpager.*,rownum rn from(
+  </sql>
+  <sql id="pager_end" >
+      ) tpager
+  ) where rn &gt;= #{page.c_p_c_min_no} and rn &lt;= #{page.c_p_c_max_no} 
+  </sql>
+  
+  <sql id="Base_Column_List" >
+   o.ORDER_ID, o.ORDER_NO, o.ORDER_TIME, o.TICKET_NUM, o.TOTAL_AMOUNT, o.ORDER_STATE, o.USER_ID, o.ADDRESS, 
+    o.PHONE   
+ 
+ 
+  </sql>
+    <sql id="billwhere">
+     where 1=1
+     <if test="orders!=null">
+        <if test="orders.classesCode !=null and orders.classesCode!=''">
+           and CLASSES_CODE like '%'||#{orders.classesCode}||'%'
+        </if>
+        <if test="orders.orderStartTime !=null and orders.orderStartTime!=''">
+           and CLASSES_STARTTIME like '%'||#{orders.orderStartTime}||'%'
+        </if>
+        <if test="orders.orderEndTime !=null and orders.orderEndTime!=''">
+           and CLASSES_ENDTIME like '%'||#{orders.orderEndTime}||'%'
+        </if>
+        <if test="orders.startStation !=null and orders.startStation!=''">
+           and bus_station.station_name like '%'||#{orders.startStation}||'%'
+        </if>
+        <if test="orders.endStation !=null and orders.endStation!=''">
+           and bb.station_name like '%'||#{orders.endStation}||'%'
+        </if>
+        </if>
+  </sql>
+  
+  
+  
+  
+  <sql id="where">
+     where 1=1
+     <if test="orders!=null">
+        <if test="orders.ordersUserName !=null and orders.ordersUserName!=''">
+           and ORDER_USER_ID_NAME like '%'||#{orders.ordersUserName}||'%'
+        </if>
+        <if test="orders.orderNo!=null and orders.orderNo!=''">
+           and ORDER_NO like '%'||#{orders.orderNo}||'%'
+        </if>
+        <if test="orders.orderState !=null and orders.orderState!=''">
+           and ORDER_STATE like '%'||#{orders.orderState}||'%'
+        </if>
+        </if>
+  </sql>
+  
+     <delete id="deleteBatch" parameterType="java.util.List" >
+    delete ORDERS where ORDER_NO in 
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     <foreach collection="list" item="order">
+      #{order.orderNo},
+     </foreach>
+     </trim>
+   </delete>
+  
+  <select id="billlist" resultMap="BaseResultMap">
+    <include refid="pager_start" />
+select orders.order_no,users.user_rname,classes.classes_code,classes.classes_starttime,
+bus_station.station_name as startStation,bb.station_name as endStation,
+orders.order_time,orders.total_amount,tickettype.type_name,ticket.ticket_price,orders.order_areaid
+from orders orders left join ticket ticket on
+orders.ticket_num=ticket.ticket_id
+left join tickettype tickettype on
+ticket.type_id=tickettype.type_id
+left join classes classes on
+ticket.class_id=classes.classes_id
+left join users users on
+orders.user_id=users.user_id
+left join bus_station bus_station on
+bus_station.station_id=classes.classes_startstationid 
+left join bus_station bb on 
+bb.station_id=classes.classes_endstationid
+      <include refid="billwhere" />
+    <include refid="pager_end" />
+  </select>
+  
+  
+  <select id="listByName" resultMap="BaseResultMap">
+
+select orders.order_no,users.user_rname,classes.classes_code,classes.classes_starttime,
+bus_station.station_name as startStation,bb.station_name as endStation,
+orders.order_time,orders.total_amount,tickettype.type_name,ticket.ticket_price,orders.order_areaid
+from orders orders left join ticket ticket on
+orders.ticket_num=ticket.ticket_id
+left join tickettype tickettype on
+ticket.type_id=tickettype.type_id
+left join classes classes on
+ticket.class_id=classes.classes_id
+left join users users on
+orders.user_id=users.user_id
+left join bus_station bus_station on
+bus_station.station_id=classes.classes_startstationid 
+left join bus_station bb on 
+bb.station_id=classes.classes_endstationid
+where users.user_rname=#{userRname,jdbcType=VARCHAR}
+
+  </select>
+  
+
+ <select id="list" resultMap="BaseResultMap">
+    
+      <include refid="pager_start"/>
+      select   
+      <include refid="Base_Column_List" />,
+      o.order_No orderNo,o.order_time orderTime,
+      u.user_name ORDERS_USER_ID_NAME
+      
+      from orders o
+      left join users u on o.user_id=u.user_id
+     
+      
+    <include refid="where" />
+    <include refid="pager_end" /> 
+   
+  </select> 
+
+  <select id="ListCount" resultType="java.lang.Integer">
+  select count(1) from ORDERS o
+  <include refid="where" />
+  
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />,
+    o.phone,o.order_no,o.order_time,d.order_isout orderIsout,c.classes_code orderClassesCode,bs_s.station_name orderstartStationName,bs_e.station_name orderendStationName,
+    u.user_name ORDERS_USER_ID_NAME,c.classes_starttime orderStartTime,c.classes_endtime orderEndTime,p.pro_num ORDERS_PRO_NUM,u.user_carid orderUserCard,d.price orderPrice,
+    cr.car_type orderCarType,cr.car_platenum orderCarPlateNum,r.route_remark orderRouteRemark,bs_s.station_remark orderStationRemark
+  from orders o
+    left join order_detail d on d.detail_id=o.order_id
+    left join users u on o.user_id=u.user_id
+    left join passenger p on d.pro_id=p.pro_id
+    
+    left join TICKET t on t.ticket_id = d.ticket_id 
+
+    left join classes c on c.classes_id = t.class_id
+
+    left join bus_station bs_s on bs_s.station_id = c.classes_startstationid
+
+    left join bus_station bs_e on bs_e.station_id = c.classes_endstationid
+    left join car cr on cr.car_id=c.classes_car_type
+     left join route r on r.route_id=c.classes_route_id
+    
+    
+    where o.ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from JLSF.ORDERS o
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.jlsf.entity.Orders" >
+    insert into JLSF.ORDERS (ORDER_ID, ORDER_NO, ORDER_TIME, 
+      TICKET_NUM, TOTAL_AMOUNT, ORDER_STATE, 
+      USER_ID, ADDRESS, PHONE
+      )
+    values (#{orderId,jdbcType=DECIMAL}, SEQ_ORDERS.nextval, #{orderTime,jdbcType=TIMESTAMP}, 
+      #{ticketNum,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{orderState,jdbcType=DECIMAL}, 
+      #{userId,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jlsf.entity.Orders" >
+    insert into JLSF.ORDERS o
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+      <if test="orderTime != null" >
+        ORDER_TIME,
+      </if>
+      <if test="ticketNum != null" >
+        TICKET_NUM,
+      </if>
+      <if test="totalAmount != null" >
+        TOTAL_AMOUNT,
+      </if>
+      <if test="orderState != null" >
+        ORDER_STATE,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticketNum != null" >
+        #{ticketNum,jdbcType=DECIMAL},
+      </if>
+      <if test="totalAmount != null" >
+        #{totalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderState != null" >
+        #{orderState,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.Orders" >
+    update JLSF.ORDERS o
+    <set >
+      <if test="orderNo != null" >
+        ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticketNum != null" >
+        TICKET_NUM = #{ticketNum,jdbcType=DECIMAL},
+      </if>
+      <if test="totalAmount != null" >
+        TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderState != null" >
+        ORDER_STATE = #{orderState,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ORDER_NO = #{orderNo,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.Orders" >
+    update JLSF.ORDERS o
+    set ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+      TICKET_NUM = #{ticketNum,jdbcType=DECIMAL},
+      TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL},
+      ORDER_STATE = #{orderState,jdbcType=DECIMAL},
+      USER_ID = #{userId,jdbcType=DECIMAL},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+  
+
+</mapper>

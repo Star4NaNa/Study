@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlsf.dao.RouteMapper" >
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.Route" >
+    <id column="ROUTE_ID" property="routeId" jdbcType="INTEGER" />
+    <result column="ROUTE_NUM" property="routeNum" jdbcType="VARCHAR" />
+    <result column="ROUTE_NAME" property="routeNum" jdbcType="VARCHAR" />
+    <result column="ROUTE_STARTAREAID" property="routeStartareaid" jdbcType="INTEGER" />
+    <result column="ROUTE_ENDAREAID" property="routeEndareaid" jdbcType="INTEGER" />
+    <result column="ROUTE_STATUS" property="routeStatus" jdbcType="INTEGER" />
+    <result column="ROUTE_STARTTIME" property="routeStarttime" jdbcType="VARCHAR" />
+    <result column="ROUTE_STOPTIME" property="routeStoptime" jdbcType="VARCHAR" />
+    <result column="ROUTE_HOT" property="routeHot" jdbcType="INTEGER" />
+    <result column="ROUTE_REMARK" property="routeRemark" jdbcType="VARCHAR" />
+     <result column="routeStartareaName" property="routeStartareaName" jdbcType="VARCHAR" />
+      <result column="routeEndareaName" property="routeEndareaName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  
+    <sql id="pager_start" >
+    select * from (
+      select tpager.*,rownum rn from(
+    </sql>
+    <sql id="pager_end" >
+       ) tpager
+     ) where rn &gt;= #{page.c_p_c_min_no} and rn &lt;= #{page.c_p_c_max_no} 
+    </sql>
+  
+   
+  <sql id="where" >
+    where 1=1 order by ROUTE_ID asc
+	   <if test="route  != null">
+		   <if test="route.routeNum != null and route.routeNum != ''">
+		   and t.ROUTE_NUM like '%'|| #{route.routeNum} ||'%'
+		   </if>
+		   <if test="route.routeName != null and route.routeName != ''">
+		   and t.ROUTE_NAME like '%'|| #{route.routeName} ||'%'
+		   </if>
+		    <if test="route.routeStartareaid != null and route.routeStartareaid != ''">
+		   and t.ROUTE_STARTAREAID like '%'|| #{route.routeStartareaid} ||'%'
+		   </if>
+		    <if test="route.routeEndareaid != null and route.routeEndareaid != ''">
+		   and t.ROUTE_ENDAREAID like '%'|| #{route.routeNum} ||'%'
+		   </if>
+		    <if test="route.routeNum != null and route.routeNum != ''">
+		   and t.ROUTE_STATUS like '%'|| #{route.routeNum} ||'%'
+		   </if>
+		    <if test="route.routeNum != null and route.routeNum != ''">
+		   and t.ROUTE_STARTTIME like '%'|| #{route.routeNum} ||'%'
+		   </if>
+		    <if test="route.routeNum != null and route.routeNum != ''">
+		   and t.ROUTE_STOPTIME like '%'|| #{route.routeNum} ||'%'
+		   </if>
+		     <if test="route.routeNum != null and route.routeNum != ''">
+		   and t.ROUTE_HOT like '%'|| #{route.routeNum} ||'%'
+		   </if>
+		    <if test="route.routeNum != null and route.routeNum != ''">
+		   and t.ROUTE_REMARK like '%'|| #{route.routeNum} ||'%'
+		   </if>
+	   </if>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    ROUTE_ID, ROUTE_NUM,ROUTE_NAME, ROUTE_STARTAREAID, ROUTE_ENDAREAID, ROUTE_STATUS, ROUTE_STARTTIME, 
+    ROUTE_STOPTIME, ROUTE_HOT, ROUTE_REMARK
+  </sql>
+  
+
+   <select id="listCount" resultType="java.lang.Integer">
+   select count(1) from  route r
+   <include refid="where" />
+  </select>
+  
+  <select id="list1" resultMap="BaseResultMap">
+   select
+   <include refid="Base_Column_List" />
+   from JLSF.ROUTE
+  </select>
+  
+  <!--查询(根据编号)  -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from JLSF.ROUTE
+    where ROUTE_ID = #{routeId,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 查询全部 -->
+  <select id="list" resultMap="BaseResultMap">
+    <include refid="pager_start" />
+    select 
+    <include refid="Base_Column_List" />,
+    sc.AREA_NAME routeStartareaName,ec.AREA_NAME routeEndareaName
+    from route r
+    left join area sc on  r.route_startareaid=sc.area_id
+    left join area ec on  r.route_endareaid=ec.area_id
+    <include refid="where" />
+    <include refid="pager_end" />
+  </select>
+  
+ <!-- 根据编号删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from JLSF.ROUTE
+    where ROUTE_ID = #{routeId,jdbcType=INTEGER}
+  </delete>
+  
+ <!-- 批量删除 -->
+  <delete id="deleteBatch" parameterType="java.util.List" >
+    delete ROUTE where ROUTE_ID in
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     <foreach collection="list" item="route">
+     #{route.routeId}
+     </foreach>
+    </trim>
+  </delete>
+  
+  <!--插入  -->
+  <insert id="insert" parameterType="com.jlsf.entity.Route" >
+    insert into JLSF.ROUTE (ROUTE_ID, ROUTE_NUM,ROUTE_NAME, ROUTE_STARTAREAID, 
+      ROUTE_ENDAREAID, ROUTE_STATUS, ROUTE_STARTTIME, 
+      ROUTE_STOPTIME, ROUTE_HOT, ROUTE_REMARK
+      )
+    values (#{routeId,jdbcType=INTEGER}, #{routeNum,jdbcType=VARCHAR}, #{routeName,jdbcType=VARCHAR}, #{routeStartareaid,jdbcType=INTEGER}, 
+      #{routeEndareaid,jdbcType=INTEGER}, #{routeStatus,jdbcType=INTEGER}, #{routeStarttime,jdbcType=VARCHAR}, 
+      #{routeStoptime,jdbcType=VARCHAR}, #{routeHot,jdbcType=INTEGER}, #{routeRemark,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <!-- 动态插入 -->
+  <insert id="insertSelective" parameterType="com.jlsf.entity.Route" >
+    insert into JLSF.ROUTE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="routeId != null" >
+        ROUTE_ID,
+      </if>
+      <if test="routeNum != null" >
+        ROUTE_NUM,
+      </if>
+      <if test="routeName != null" >
+        ROUTE_NAME,
+      </if>
+      <if test="routeStartareaid != null" >
+        ROUTE_STARTAREAID,
+      </if>
+      <if test="routeEndareaid != null" >
+        ROUTE_ENDAREAID,
+      </if>
+      <if test="routeStatus != null" >
+        ROUTE_STATUS,
+      </if>
+      <if test="routeStarttime != null" >
+        ROUTE_STARTTIME,
+      </if>
+      <if test="routeStoptime != null" >
+        ROUTE_STOPTIME,
+      </if>
+      <if test="routeHot != null" >
+        ROUTE_HOT,
+      </if>
+      <if test="routeRemark != null" >
+        ROUTE_REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="routeId != null" >
+        #{routeId,jdbcType=INTEGER},
+      </if>
+      <if test="routeNum != null" >
+        #{routeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="routeName != null" >
+        #{routeName,jdbcType=VARCHAR},
+      </if>
+      <if test="routeStartareaid != null" >
+        #{routeStartareaid,jdbcType=INTEGER},
+      </if>
+      <if test="routeEndareaid != null" >
+        #{routeEndareaid,jdbcType=INTEGER},
+      </if>
+      <if test="routeStatus != null" >
+        #{routeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="routeStarttime != null" >
+        #{routeStarttime,jdbcType=VARCHAR},
+      </if>
+      <if test="routeStoptime != null" >
+        #{routeStoptime,jdbcType=VARCHAR},
+      </if>
+      <if test="routeHot != null" >
+        #{routeHot,jdbcType=INTEGER},
+      </if>
+      <if test="routeRemark != null" >
+        #{routeRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 更新 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.Route" >
+    update JLSF.ROUTE
+    <set >
+      <if test="routeNum != null" >
+        ROUTE_NUM = #{routeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="routeName != null" >
+        ROUTE_NAME = #{routeName,jdbcType=VARCHAR},
+      </if>
+      <if test="routeStartareaid != null" >
+        ROUTE_STARTAREAID = #{routeStartareaid,jdbcType=INTEGER},
+      </if>
+      <if test="routeEndareaid != null" >
+        ROUTE_ENDAREAID = #{routeEndareaid,jdbcType=INTEGER},
+      </if>
+      <if test="routeStatus != null" >
+        ROUTE_STATUS = #{routeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="routeStarttime != null" >
+        ROUTE_STARTTIME = #{routeStarttime,jdbcType=VARCHAR},
+      </if>
+      <if test="routeStoptime != null" >
+        ROUTE_STOPTIME = #{routeStoptime,jdbcType=VARCHAR},
+      </if>
+      <if test="routeHot != null" >
+        ROUTE_HOT = #{routeHot,jdbcType=INTEGER},
+      </if>
+      <if test="routeRemark != null" >
+        ROUTE_REMARK = #{routeRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ROUTE_ID = #{routeId,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 根据编号更新 -->
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.Route" >
+    update JLSF.ROUTE
+    set ROUTE_NUM = #{routeNum,jdbcType=VARCHAR},
+      ROUTE_STARTAREAID = #{routeStartareaid,jdbcType=INTEGER},
+      ROUTE_ENDAREAID = #{routeEndareaid,jdbcType=INTEGER},
+      ROUTE_STATUS = #{routeStatus,jdbcType=INTEGER},
+      ROUTE_STARTTIME = #{routeStarttime,jdbcType=VARCHAR},
+      ROUTE_STOPTIME = #{routeStoptime,jdbcType=VARCHAR},
+      ROUTE_HOT = #{routeHot,jdbcType=INTEGER},
+      ROUTE_REMARK = #{routeRemark,jdbcType=VARCHAR}
+    where ROUTE_ID = #{routeId,jdbcType=INTEGER}
+  </update>
+</mapper>

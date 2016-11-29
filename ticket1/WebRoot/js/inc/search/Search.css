@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+.highlight{background-color:#3366CC;color:#FFFFFF;}
+#result{position:absolute;width:250px;height:auto;left:0px;border:solid 1px #817F82;background-color:#FFFFFF;display:none;text-align:left}
+#result ul{list-style:none;margin:0;padding:0;}
+#result ul li{width:250px;height:20px;line-height:20px;z-index:1000;padding-left:3px;}
+
+#result2{position:absolute;width:170px;height:auto;left:0px;border:solid 1px #817F82;background-color:#FFFFFF;display:none;text-align:left}
+#result2 ul{list-style:none;margin:0;padding:0;}
+#result2 ul li{width:170px;height:20px;line-height:20px;z-index:1000;padding-left:3px;}

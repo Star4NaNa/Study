@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="busStation" extends="default" namespace="/busStation">
+	        <action name="list" class="com.jlsf.action.BusStationAction" method="list">
+	        	<param name="page.path">/busStation/list?model=basic</param>
+	           <param name="page.p_c_no">10</param>
+	           <result  name="success">/manager/pages/bus_station/list.jsp?model=basic</result>
+	        </action>
+	         <action name="toinsert" class="com.jlsf.action.BusStationAction" method="get">
+	           <result  name="success" >/manager/pages/bus_station/edit.jsp?model=basic</result> 
+	        </action>
+	        <action name="insert" class="com.jlsf.action.BusStationAction" method="insert">
+	           <result  name="success" type="redirect">/busStation/list?model=basic</result>	          
+	        </action>
+	        
+	        <action name="toEdit" class="com.jlsf.action.BusStationAction" method="get">
+	           <result  name="success">/manager/pages/bus_station/edit.jsp?model=basic</result>
+	        </action>
+	        
+	         <action name="view" class="com.jlsf.action.BusStationAction" method="view">
+	           <result  name="success">/manager/pages/bus_station/view.jsp?model=basic</result>
+	        </action>
+	        
+	        <action name="del" class="com.jlsf.action.BusStationAction" method="del">
+	           <result  name="success" type="redirect">/busStation/list?model=basic </result>
+	        </action>
+	       
+	 </package>
+
+</struts>    

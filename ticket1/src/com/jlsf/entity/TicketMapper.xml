@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlsf.dao.TicketMapper" >
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.Ticket" >
+    <id column="TICKET_ID" property="ticketId" jdbcType="INTEGER" />
+    <result column="CLASS_ID" property="classId" jdbcType="INTEGER" />
+    <result column="TYPE_ID" property="typeId" jdbcType="INTEGER" />
+    <result column="TICKET_PRICE" property="ticketPrice" jdbcType="DECIMAL" />
+    <result column="start_name" property="startStation" jdbcType="VARCHAR" />
+    <result column="stop_name" property="endStation" jdbcType="VARCHAR" />
+    <result column="type_name" property="ttypes" jdbcType="VARCHAR" />
+     <result column="classes_code" property="classesType" jdbcType="VARCHAR" />
+     <result column="classes_starttime" property="startTime" jdbcType="VARCHAR" />
+     
+      <result column="CLASSDATE" property="classesDate" jdbcType="VARCHAR" />
+      <result column="REMAINTICKET_NUMBER" property="rNumber" jdbcType="INTEGER" />
+      <result column="startarea" property="startarea_id" jdbcType="INTEGER" />
+      <result column="stoparea" property="stoparea_id" jdbcType="INTEGER" />
+      
+      
+       <result column="cityId" property="cityId" jdbcType="DECIMAL" />
+       <result column="priId" property="priId" jdbcType="DECIMAL" />
+  </resultMap>
+  
+    <sql id="pager_start" >
+   select * from (
+     select tpager.*,rownum rn from(
+  </sql>
+  <sql id="pager_end" >
+      ) tpager
+  ) where rn &gt;= #{page.c_p_c_min_no} and rn &lt;= #{page.c_p_c_max_no} 
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    TICKET_ID, CLASS_ID, TYPE_ID, TICKET_PRICE
+  </sql>
+  
+  <sql id="where" >
+	   where 1=1 
+	   <if test="ticket  != null">
+		   <if test="ticket.classesType != null and ticket.classesType != ''">
+		   and c.classes_code like '%'|| #{ticket.classesType } ||'%'
+		   </if>
+		  <if test="ticket.startStation != null and ticket.startStation != ''">
+		   and b.station_name like '%'|| #{ticket.startStation} ||'%'
+		   </if>
+		   <if test="ticket.endStation != null and ticket.endStation != ''">
+		   and bi.station_name like '%'|| #{ticket.endStation } || '%'
+		   </if>
+		    <if test="ticket.begintime != null and ticket.begintime != ''">
+		   and c.classes_starttime &gt;= #{ticket.begintime}
+		   </if>
+		   <if test="ticket.endtime != null and ticket.endtime !=''">
+		   and c.classes_starttime &lt;=#{ticket.endtime}
+		   </if>
+		    <if test="ticket.ttypes != null and ticket.ttypes != ''">
+		   and tt.TYPE_ID like '%'|| #{ticket.ttypes }
+		   </if>
+		   <if test="ticket.classesDate != null and ticket.classesDate != ''">
+		   and tic.CLASSDATE like '%'|| #{ticket.classesDate }
+		   </if>
+		   <if test="ticket.startarea_id != null and ticket.startarea_id != ''">
+		   and a.area_id like '%'|| #{ticket.startarea_id }
+		   </if>
+		   <if test="ticket.stoparea_id != null and ticket.stoparea_id != ''">
+		   and ai.area_id like '%'|| #{ticket.stoparea_id }
+		   </if>
+	   </if>
+  </sql>
+  
+   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+       select t.ticket_id,t.class_id,t.type_id,t.ticket_price,tt.type_name,c.classes_code,
+	 b.station_name start_station,eb.station_name stop_station,c.classes_starttime, city.area_id cityId,pri.area_id priId
+ from ticket t
+ left join tickettype tt on tt.type_id=t.type_id
+ left join classes c on t.class_id=c.classes_id
+ left join bus_station b on b.station_id=c.classes_startstationid
+ left join bus_station eb on eb.station_id=c.classes_endstationid 
+ LEFT JOIN area qu ON b.area_id=qu.area_id
+ LEFT JOIN area city ON qu.area_parentid=city.area_id
+ LEFT JOIN area pri ON city.area_parentid=pri.area_id
+    where TICKET_ID = #{ticketId,jdbcType=DECIMAL}
+  </select>
+  
+  
+  
+  
+  <select id="list" resultMap="BaseResultMap" parameterType="java.math.BigDecimal">
+   <include refid="pager_start" />
+select 
+
+ti.TICKET_PRICE,ti.ticket_id,ti.class_id,c.classes_code,b.station_name start_name,bi.station_name stop_name,tt.type_name,cc.classes_starttime ,tic.classdate,tic.remainticket_number
+,a.area_id as startarea,ai.area_id as stoparea 
+FROM ticket ti
+left join  CLASSES c on ti.class_id=c.classes_id
+left join bus_station b on c.classes_startstationid=b.station_id left join area a on a.area_id=b.area_id
+left join bus_station bi on c.classes_endstationid = bi.station_id left join area ai on ai.area_id=bi.area_id
+left join tickettype tt on ti.type_id=tt.type_id
+left join  CLASSES cc on cc.classes_id=ti.class_id 
+left join  TICKETS_REMAIN tic on cc.classes_id=tic.classes_id
+    <include refid="where" />
+    order by ti.TICKET_ID desc 
+    <include refid="pager_end" />
+  </select>
+  
+  <select id="listCount" resultType="java.lang.Integer">
+   select count(1) from Ticket ti
+  </select>
+ 
+ 
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from JLSF.TICKET
+    where TICKET_ID = #{ticketId,jdbcType=INTEGER}
+  </delete>
+  
+   <delete id="deleteBatch" parameterType="java.util.List" >
+    delete TICKET where TICKET_ID in 
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     <foreach collection="list" item="ticket">
+      #{ticket.ticketId},
+     </foreach>
+     </trim>
+   </delete>
+   <!-- 
+   <insert id="insertTicket" parameterType="com.jlsf.entity.Ticket" >
+    insert into JLSF.TICKET (TICKET_ID, CLASS_ID, TYPE_ID, 
+      TICKET_PRICE)
+    values (seq_ticket_id.nextval, #{classId,jdbcType=DECIMAL}, #{typeId,jdbcType=DECIMAL}, 
+      #{ticketPrice,jdbcType=DECIMAL})
+     
+  </insert>
+   -->
+  <insert id="insert" parameterType="com.jlsf.entity.Ticket" >
+    insert into JLSF.TICKET (TICKET_ID, CLASS_ID, TYPE_ID, 
+      TICKET_PRICE)
+    values (seq_ticket_id.nextval, #{classId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
+      #{ticketPrice,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jlsf.entity.Ticket" >
+    insert into JLSF.TICKET
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ticketId != null" >
+        TICKET_ID,
+      </if>
+      <if test="classId != null" >
+        CLASS_ID,
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID,
+      </if>
+      <if test="ticketPrice != null" >
+        TICKET_PRICE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ticketId != null" >
+        #{ticketId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="ticketPrice != null" >
+        #{ticketPrice,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.Ticket" >
+    update JLSF.TICKET
+    <set >
+      <if test="classId != null" >
+        CLASS_ID = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="ticketPrice != null" >
+        TICKET_PRICE = #{ticketPrice,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where TICKET_ID = #{ticketId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.Ticket" >
+    update JLSF.TICKET
+    set CLASS_ID = #{classId,jdbcType=INTEGER},
+      TYPE_ID = #{typeId,jdbcType=INTEGER},
+      TICKET_PRICE = #{ticketPrice,jdbcType=DECIMAL}
+    where TICKET_ID = #{ticketId,jdbcType=xINTEGER}
+  </update>
+   
+   
+ <select id="queryTicketByClassId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+   select ticket.TICKET_ID,ticket.TICKET_PRICE,
+   tickettype.TYPE_NAME as type_name
+   from JLSF.TICKET ticket,JLSF.TICKETTYPE tickettype
+   where tickettype.TYPE_ID=ticket.TYPE_ID and
+   ticket.CLASS_ID = #{classesId,jdbcType=DECIMAL}
+ </select>
+  
+</mapper>

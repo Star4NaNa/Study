@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/program/!svn/ver/1222/ticket1/src/com/jlsf/biz
+END
+DriverBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/program/!svn/ver/1045/ticket1/src/com/jlsf/biz/DriverBiz.java
+END
+ITicketBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/program/!svn/ver/1208/ticket1/src/com/jlsf/biz/ITicketBiz.java
+END
+ClassesBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/program/!svn/ver/985/ticket1/src/com/jlsf/biz/ClassesBiz.java
+END
+OrdersBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/program/!svn/ver/1186/ticket1/src/com/jlsf/biz/OrdersBiz.java
+END
+ITicketTypeBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/program/!svn/ver/1038/ticket1/src/com/jlsf/biz/ITicketTypeBiz.java
+END
+IPassengerBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/670/ticket1/src/com/jlsf/biz/IPassengerBiz.java
+END
+IBusStationBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/program/!svn/ver/1205/ticket1/src/com/jlsf/biz/IBusStationBiz.java
+END
+CarBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/program/!svn/ver/1047/ticket1/src/com/jlsf/biz/CarBiz.java
+END
+IRouteBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/program/!svn/ver/1225/ticket1/src/com/jlsf/biz/IRouteBiz.java
+END
+IOrdersBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/program/!svn/ver/1092/ticket1/src/com/jlsf/biz/IOrdersBiz.java
+END
+IListphone.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/program/!svn/ver/1006/ticket1/src/com/jlsf/biz/IListphone.java
+END
+IUsersBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/program/!svn/ver/896/ticket1/src/com/jlsf/biz/IUsersBiz.java
+END
+IAreaBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/program/!svn/ver/899/ticket1/src/com/jlsf/biz/IAreaBiz.java
+END
+ITeacherBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/program/!svn/ver/263/ticket1/src/com/jlsf/biz/ITeacherBiz.java
+END
+IEmployeeBiz.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/program/!svn/ver/1147/ticket1/src/com/jlsf/biz/IEmployeeBiz.java
+END

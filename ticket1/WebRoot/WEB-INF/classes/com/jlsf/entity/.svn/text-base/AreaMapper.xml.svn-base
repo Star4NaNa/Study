@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlsf.dao.AreaMapper" >
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.Area" >
+    <id column="AREA_ID" property="areaId" jdbcType="INTEGER" />
+    <result column="AREA_NAME" property="areaName" jdbcType="VARCHAR" />
+    <result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
+    <result column="AREA_PARENTID" property="areaParentid" jdbcType="INTEGER" />
+    <result column="AREA_LEVEL" property="areaLevel" jdbcType="INTEGER" />
+    <result column="AREA_STATUS" property="areaStatus" jdbcType="INTEGER" />
+    <result column="AREA_REMARK" property="areaRemark" jdbcType="VARCHAR" />
+    <result column="AREA_DEL" property="areaDel" jdbcType="INTEGER" />
+    <result column="pAreaName" property="pAreaName" jdbcType="VARCHAR" />
+    <result column="pAreaId" property="pAreaId" jdbcType="INTEGER" />
+    <result column="ppAreaName" property="ppAreaName" jdbcType="VARCHAR" />
+    <result column="ppAreaId" property="ppAreaId" jdbcType="INTEGER" />
+  </resultMap>
+    
+ 
+  
+  <sql id="pager_start" >
+   select * from (
+     select tpager.*,rownum rn from(
+  </sql>
+  <sql id="pager_end" >
+      ) tpager
+  ) where rn &gt;= #{page.c_p_c_min_no} and rn &lt;= #{page.c_p_c_max_no} 
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    AREA_ID, AREA_NAME, AREA_CODE, AREA_PARENTID, AREA_LEVEL, AREA_STATUS, AREA_REMARK, 
+    AREA_DEL
+  </sql>
+  
+ <sql id="where" >
+	   where 1=1 
+	   <if test="area  != null">
+		   <if test="area.areaName != null and area.areaName != ''">
+		   and a.AREA_NAME like '%'|| #{area.areaName} ||'%'
+		   </if>
+		  <if test="area.areaCode != null and area.areaCode != ''">
+		   and a.AREA_CODE like '%'|| #{area.areaCode} ||'%'
+		   </if>
+	   </if>
+  </sql>
+  
+  <select id="list" resultMap="BaseResultMap" >
+    <include refid="pager_start" />
+    select 
+    a.AREA_ID, a.AREA_NAME, a.AREA_CODE,a.AREA_PARENTID, a.AREA_LEVEL, a.AREA_STATUS,a.AREA_REMARK, a.AREA_DEL,
+    a.AREA_NAME areaName,pa.AREA_NAME pAreaName,ppa.AREA_NAME  ppAreaName,
+                        pa.AREA_ID pAreaId,ppa.AREA_ID  ppAreaId 
+    from JLSF.AREA a
+    left join area pa on pa.AREA_ID=a.AREA_PARENTID
+    left join area ppa on ppa.AREA_ID = pa.AREA_PARENTID
+    <include refid="where" />
+    order by AREA_ID
+    <include refid="pager_end" />  
+  </select>
+
+  
+   <select id="listCount" resultType="java.lang.Integer">
+   select count(1) from AREA a
+   <include refid="where" />
+  </select>
+  
+  <select id="selectChildren" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from JLSF.AREA
+    where AREA_PARENTID = #{areaId,jdbcType=INTEGER}
+  </select>
+  
+   <select id="selectFirstLevelAreas" resultMap="BaseResultMap">
+   select 
+   <include refid="Base_Column_List" />
+    from JLSF.AREA a
+    where a.AREA_LEVEL = 1
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    a.AREA_ID, a.AREA_NAME, a.AREA_CODE,a.AREA_PARENTID, a.AREA_LEVEL, a.AREA_STATUS,a.AREA_REMARK, a.AREA_DEL,
+    a.AREA_NAME areaName,pa.AREA_NAME pAreaName,ppa.AREA_NAME  ppAreaName,
+                        pa.AREA_ID pAreaId,ppa.AREA_ID  ppAreaId 
+    from JLSF.AREA a
+    left join area pa on pa.AREA_ID=a.AREA_PARENTID
+    left join area ppa on ppa.AREA_ID = pa.AREA_PARENTID
+    where a.AREA_ID = #{areaId,jdbcType=INTEGER}
+    
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from JLSF.AREA
+    where AREA_ID = #{areaId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteBatch" parameterType="java.util.List" >
+    delete AREA where area_id in 
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     <foreach collection="list" item="teacher">
+      #{area.areaId},
+     </foreach>
+     </trim>
+  </delete>
+  
+  <insert id="insert" parameterType="com.jlsf.entity.Area" >
+    insert into JLSF.AREA (AREA_ID, AREA_NAME, AREA_CODE, 
+      AREA_PARENTID, AREA_LEVEL, AREA_STATUS, 
+      AREA_REMARK, AREA_DEL)
+    values (SEQ_AREA.nextval, #{areaName,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, 
+      #{areaParentid,jdbcType=INTEGER}, #{areaLevel,jdbcType=INTEGER}, #{areaStatus,jdbcType=INTEGER}, 
+      #{areaRemark,jdbcType=VARCHAR}, #{areaDel,jdbcType=INTEGER})
+      
+  </insert>
+  <insert id="insertSelective" parameterType="com.jlsf.entity.Area" >
+    insert into JLSF.AREA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="areaId != null" >
+        AREA_ID,
+      </if>
+      <if test="areaName != null" >
+        AREA_NAME,
+      </if>
+      <if test="areaCode != null" >
+        AREA_CODE,
+      </if>
+      <if test="areaParentid != null" >
+        AREA_PARENTID,
+      </if>
+      <if test="areaLevel != null" >
+        AREA_LEVEL,
+      </if>
+      <if test="areaStatus != null" >
+        AREA_STATUS,
+      </if>
+      <if test="areaRemark != null" >
+        AREA_REMARK,
+      </if>
+      <if test="areaDel != null" >
+        AREA_DEL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="areaId != null" >
+        #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="areaName != null" >
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaParentid != null" >
+        #{areaParentid,jdbcType=INTEGER},
+      </if>
+      <if test="areaLevel != null" >
+        #{areaLevel,jdbcType=INTEGER},
+      </if>
+      <if test="areaStatus != null" >
+        #{areaStatus,jdbcType=INTEGER},
+      </if>
+      <if test="areaRemark != null" >
+        #{areaRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="areaDel != null" >
+        #{areaDel,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.Area" >
+    update JLSF.AREA
+    <set >
+      <if test="areaName != null" >
+        AREA_NAME = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaParentid != null" >
+        AREA_PARENTID = #{areaParentid,jdbcType=INTEGER},
+      </if>
+      <if test="areaLevel != null" >
+        AREA_LEVEL = #{areaLevel,jdbcType=INTEGER},
+      </if>
+      <if test="areaStatus != null" >
+        AREA_STATUS = #{areaStatus,jdbcType=INTEGER},
+      </if>
+      <if test="areaRemark != null" >
+        AREA_REMARK = #{areaRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="areaDel != null" >
+        AREA_DEL = #{areaDel,jdbcType=INTEGER},
+      </if>
+    </set>
+    where AREA_ID = #{areaId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.Area" >
+    update JLSF.AREA
+    set AREA_NAME = #{areaName,jdbcType=VARCHAR},
+      AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      AREA_PARENTID = #{areaParentid,jdbcType=INTEGER},
+      AREA_LEVEL = #{areaLevel,jdbcType=INTEGER},
+      AREA_STATUS = #{areaStatus,jdbcType=INTEGER},
+      AREA_REMARK = #{areaRemark,jdbcType=VARCHAR},
+      AREA_DEL = #{areaDel,jdbcType=INTEGER}
+    where AREA_ID = #{areaId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateDel" parameterType="com.jlsf.entity.Area" >
+    update JLSF.AREA
+    set AREA_NAME = #{areaName,jdbcType=VARCHAR},
+     AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      AREA_PARENTID = #{areaParentid,jdbcType=INTEGER},
+      AREA_LEVEL = #{areaLevel,jdbcType=INTEGER},
+      AREA_STATUS = 0,
+      AREA_REMARK = #{areaRemark,jdbcType=VARCHAR},
+      AREA_DEL = 1
+    where AREA_ID = #{areaId,jdbcType=INTEGER}
+  </update>
+</mapper>

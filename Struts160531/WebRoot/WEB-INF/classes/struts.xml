@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="default" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="lanjie" class="com.filter.MyInterceptor"></interceptor>
+		</interceptors>
+		<default-action-ref name="defaultAction"></default-action-ref>
+		<action name="defaultAction">
+			<result>xixi.jsp</result>
+		</action>
+		<action name="denglu" class="com.action.MyAction" method="dologin">
+			<result type="redirect">${paths}</result>
+		</action>
+		<action name="vn" class="com.action.Action1">
+			<interceptor-ref name="lanjie"></interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="success">hehe.jsp</result>
+		</action>
+		<action name="ez" class="com.action.Action2">
+			<result name="success">wawa.jsp</result>
+		</action>
+	</package>
+</struts>    

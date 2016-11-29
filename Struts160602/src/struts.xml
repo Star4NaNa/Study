@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="default" namespace="/" extends="struts-default">
+		<action name="time" class="com.action.TimeAction">
+			<result>time.jsp</result>
+		</action>
+		<action name="welcome" class="com.action.WelcomeAction">
+			<result>welcome.jsp</result>
+		</action>
+		<action name="logins" class="com.action.DologinAction">
+			<result>login.jsp</result>
+		</action>
+		<action name="loginss" class="com.action.loginsAction">
+			<result name="success">success.jsp</result>
+			<result name="error">error.jsp</result>
+		</action>
+	</package>
+</struts>    

@@ -1,0 +1,368 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlsf.dao.ClassesMapper" >
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.Classes" >
+    <id column="CLASSES_ID" property="classesId" jdbcType="DECIMAL" />
+    <result column="CLASSES_CODE" property="classesCode" jdbcType="VARCHAR" />
+    <result column="CLASSES_STARTSTATIONID" property="classesStartstationid" jdbcType="DECIMAL" />
+    <result column="CLASSES_ENDSTATIONID" property="classesEndstationid" jdbcType="DECIMAL" />
+    <result column="CLASSES_STARTTIME" property="classesStarttime" jdbcType="VARCHAR" />
+    <result column="CLASSES_ENDTIME" property="classesEndtime" jdbcType="VARCHAR" />
+    <result column="CLASSES_TIME" property="classesTime" jdbcType="VARCHAR" />
+    <result column="CLASSES_STATUS" property="classesStatus" jdbcType="DECIMAL" />
+    <result column="CLASSES_GOINGBY" property="classesGoingby" jdbcType="VARCHAR" />
+    <result column="CLASSES_ROUTE_ID" property="classesRouteId" jdbcType="DECIMAL" />
+    <result column="CLASSES_DRIVER_ID" property="classesDriverId" jdbcType="DECIMAL" />
+    <result column="CLASSES_SEAT_NUM" property="classesSeatNum" jdbcType="DECIMAL" />
+    <result column="CLASSES_CAR_ID" property="classesCarId" jdbcType="DECIMAL" />
+    
+    <result column="CLASSES_STARTSTATIONID_NAME" property="classesStartstationidName" jdbcType="VARCHAR" />
+    <result column="CLASSES_ENDSTATIONID_NAME" property="classesEndstationidName" jdbcType="VARCHAR" />
+    <result column="CLASSES_STATUS_NAME" property="classesStatusName" jdbcType="VARCHAR" />
+    <result column="CLASSES_ROUTE_ID_NAME" property="classesRouteIdName" jdbcType="VARCHAR" />
+    <result column="CLASSES_DRIVER_ID_NAME" property="classesDriverIdName" jdbcType="VARCHAR" />
+    <result column="CLASSES_SEAT_NUM_NAME" property="classesSeatNumName" jdbcType="DECIMAL" />
+    <result column="CLASSES_STARTAREA_NAME" property="startAreaName" jdbcType="VARCHAR" />
+    <result column="CLASSES_ENDAREA_NAME" property="endAreaName" jdbcType="VARCHAR" />  
+    
+     <result column="station_name" property="stationName" jdbcType="INTEGER" />
+    <!--  <result column="area_id" property="areaId" jdbcType="VARCHAR" />-->
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />  
+
+    <result column="ticket_price" property="ticketprice" jdbcType="DECIMAL" />   
+    <!-- 始发站 所属市id  和  终点站  所属市id -->
+    <result column="start_area_id" property="startAreaId" jdbcType="DECIMAL" /> 
+    <result column="stop_area_id" property="stopAreaId" jdbcType="DECIMAL" />  
+    <!-- 日期  和  剩余车票张数 -->
+    <result column="class_date" property="classDate" jdbcType="VARCHAR" /> 
+    <result column="tickets" property="ticketNumber" jdbcType="DECIMAL" /> 
+
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    CLASSES.CLASSES_ID, CLASSES_CODE, CLASSES_STARTSTATIONID, CLASSES_ENDSTATIONID, CLASSES_STARTTIME, 
+    CLASSES_ENDTIME, CLASSES_TIME, CLASSES_STATUS, CLASSES_GOINGBY, CLASSES_ROUTE_ID, 
+    CLASSES_DRIVER_ID, CLASSES_SEAT_NUM, CLASSES_CAR_ID
+  </sql>
+ 
+
+  
+   <sql id="pager_start" >
+   select * from (
+     select tpager.*,rownum rn from(
+  </sql>
+  
+  <sql id="pager_end" >
+      ) tpager
+  ) where rn &gt;= #{page.c_p_c_min_no} and rn &lt;= #{page.c_p_c_max_no} 
+  </sql>
+  
+  
+
+        
+    <sql id="where" >
+       where 1=1
+	   <if test="class1!= null">
+		   <if test="class1.classesCode != null and class1.classesCode != ''">
+		   and classes.CLASSES_CODE like '%'|| #{class1.classesCode} ||'%'
+		   </if>
+		 
+		    <if test="class1.classesStarttime != null and class1.classesStarttime != ''">
+		   and classes.CLASSES_STARTTIME  = #{class1.classesStarttime}
+		   </if>
+		    <if test="class1.classesEndtime != null and class1.classesEndtime != ''">
+		   and classes.CLASSES_ENDTIME  = #{class1.classesEndtime}
+		  
+	       </if>
+	        <if test="class1.classesStartstationidName != null and class1.classesStartstationidName != ''">
+		   and bus1.STATION_NAME like '%'|| #{class1.classesStartstationidName} ||'%'
+		   </if>
+		   <if test="class1.classesEndstationidName != null and class1.classesEndstationidName != ''">
+		   and bus2.STATION_NAME like '%'|| #{class1.classesEndstationidName} ||'%'
+		   </if>
+		   
+		
+	       <if test="class1.startAreaId != null and class1.startAreaId != ''">
+		   and a1.area_id like '%'|| #{class1.startAreaId} ||'%'
+		   </if>
+		   <if test="class1.stopAreaId != null and class1.stopAreaId  != ''">
+		   and a2.area_id like '%'|| #{class1.stopAreaId} ||'%'
+		   </if>
+		   
+		    
+		</if>   
+       
+  </sql>
+  
+   
+   <select id="list" resultMap="BaseResultMap">
+    <include refid="pager_start"/>
+ select
+<include refid="Base_Column_List" />,
+
+d.driver_name CLASSES_DRIVER_ID_NAME,
+ bus1.station_name CLASSES_STARTSTATIONID_NAME,
+ bus2.station_name CLASSES_ENDSTATIONID_NAME,
+ r.route_num CLASSES_ROUTE_ID_NAME,
+ c.car_seatnum CLASSES_SEAT_NUM_NAME,
+ 
+ a1.area_id start_area_id,
+ a2.area_id stop_area_id,
+ t_c.classdate class_date,
+ t_c.remainticket_number tickets
+ 
+ 
+ from  jlsf.classes 
+ left join tickets_remain t_c on t_c.classes_id = classes.classes_id
+left join jlsf.driver d on jlsf.classes.classes_Driver_Id=d.driver_id
+left join  jlsf.bus_station bus1 on  jlsf.classes.classes_startstationid=bus1.station_id
+left join  jlsf.bus_station bus2 on   jlsf.classes.classes_endstationid=bus2.station_id
+
+left join area area1 on area1.area_id = bus1.area_id
+left join area area2 on area2.area_id = bus2.area_id
+
+left join area a1 on a1.area_id = area1.area_parentid
+left join area a2 on a2.area_id = area2.area_parentid
+
+left join jlsf.route r on  jlsf.classes.classes_Route_Id=r.route_id 
+left join jlsf.car c on jlsf.classes.CLASSES_CAR_ID=c.car_id
+
+
+  
+
+  <include refid="where" />
+  <include refid="pager_end" />
+     
+  </select>
+       
+  
+   <select id="listall" resultMap="BaseResultMap">
+    
+ select
+ <include refid="Base_Column_List" />,
+ 
+ d.driver_name CLASSES_DRIVER_ID_NAME,
+ bus1.station_name CLASSES_STARTSTATIONID_NAME,
+ bus2.station_name CLASSES_ENDSTATIONID_NAME,
+ r.route_num CLASSES_ROUTE_ID_NAME,
+ c.car_seatnum CLASSES_SEAT_NUM_NAME
+ from  jlsf.classes 
+
+  left join jlsf.driver d on jlsf.classes.classes_Driver_Id=d.driver_id
+   left join  jlsf.bus_station bus1 on  jlsf.classes.classes_startstationid=bus1.station_id
+left join  jlsf.bus_station bus2 on   jlsf.classes.classes_endstationid=bus2.station_id
+ left join jlsf.route r on  jlsf.classes.classes_Route_Id=r.route_id 
+ left join jlsf.car c on jlsf.classes.CLASSES_CAR_ID=c.car_id
+
+  </select>
+  
+  
+  
+  <select id="listCount" resultType="java.lang.Integer">
+   select count(1) from CLASSES 
+    <!--  <include refid="where" />-->
+  </select>
+  
+   <select id="selectChildren" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+   select c.classes_startstationid,b.station_name,c.classes_code,shi.area_id,shi.area_name,c.CLASSES_ID
+   from 
+  
+   classes c inner join bus_station b on c.classes_startstationid=b.station_id
+   inner join area a on b.area_id=a.area_id
+   inner join area shi on a.area_parentid=shi.area_id
+   where shi.area_id=#{area.areaId}
+   
+   
+  
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />,
+    ticket_price
+    from JLSF.CLASSES
+    left join ticket on ticket.class_id = classes.classes_id 
+    where CLASSES_ID = #{classesId,jdbcType=DECIMAL}
+  </select>
+
+
+
+
+  <delete id="deleteBatch" parameterType="java.util.List" >
+    delete classes where classes_id in 
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     <foreach collection="list" item="classes">
+      #{classes.classesId},
+     </foreach>
+     </trim>
+  </delete>
+  
+  
+  
+  
+  
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from JLSF.CLASSES
+    where CLASSES_ID = #{classesId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insertClasses" parameterType="com.jlsf.entity.Classes" >
+    insert into JLSF.CLASSES (CLASSES_ID, CLASSES_CODE, CLASSES_STARTSTATIONID, 
+      CLASSES_ENDSTATIONID, CLASSES_STARTTIME, 
+      CLASSES_ENDTIME, CLASSES_TIME, CLASSES_STATUS, 
+      CLASSES_GOINGBY, CLASSES_ROUTE_ID, CLASSES_DRIVER_ID, 
+      CLASSES_SEAT_NUM, CLASSES_CAR_ID)
+    values (seq_classes_id.nextval, #{classesCode,jdbcType=VARCHAR}, #{classesStartstationid,jdbcType=DECIMAL}, 
+      #{classesEndstationid,jdbcType=DECIMAL}, #{classesStarttime,jdbcType=VARCHAR}, 
+      #{classesEndtime,jdbcType=VARCHAR}, #{classesTime,jdbcType=VARCHAR}, #{classesStatus,jdbcType=DECIMAL}, 
+      #{classesGoingby,jdbcType=VARCHAR}, #{classesRouteId,jdbcType=DECIMAL}, #{classesDriverId,jdbcType=DECIMAL}, 
+      #{classesSeatNum,jdbcType=DECIMAL}, #{classesCarType,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jlsf.entity.Classes" >
+    insert into JLSF.CLASSES
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="classesId != null" >
+        CLASSES_ID,
+      </if>
+      <if test="classesCode != null" >
+        CLASSES_CODE,
+      </if>
+      <if test="classesStartstationid != null" >
+        CLASSES_STARTSTATIONID,
+      </if>
+      <if test="classesEndstationid != null" >
+        CLASSES_ENDSTATIONID,
+      </if>
+      <if test="classesStarttime != null" >
+        CLASSES_STARTTIME,
+      </if>
+      <if test="classesEndtime != null" >
+        CLASSES_ENDTIME,
+      </if>
+      <if test="classesTime != null" >
+        CLASSES_TIME,
+      </if>
+      <if test="classesStatus != null" >
+        CLASSES_STATUS,
+      </if>
+      <if test="classesGoingby != null" >
+        CLASSES_GOINGBY,
+      </if>
+      <if test="classesRouteId != null" >
+        CLASSES_ROUTE_ID,
+      </if>
+      <if test="classesDriverId != null" >
+        CLASSES_DRIVER_ID,
+      </if>
+      <if test="classesSeatNum != null" >
+        CLASSES_SEAT_NUM,
+      </if>
+      <if test="classesCarId != null" >
+        CLASSES_CAR_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="classesId != null" >
+        #{classesId,jdbcType=DECIMAL},
+      </if>
+      <if test="classesCode != null" >
+        #{classesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="classesStartstationid != null" >
+        #{classesStartstationid,jdbcType=DECIMAL},
+      </if>
+      <if test="classesEndstationid != null" >
+        #{classesEndstationid,jdbcType=DECIMAL},
+      </if>
+      <if test="classesStarttime != null" >
+        #{classesStarttime,jdbcType=VARCHAR},
+      </if>
+      <if test="classesEndtime != null" >
+        #{classesEndtime,jdbcType=VARCHAR},
+      </if>
+      <if test="classesTime != null" >
+        #{classesTime,jdbcType=VARCHAR},
+      </if>
+      <if test="classesStatus != null" >
+        #{classesStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="classesGoingby != null" >
+        #{classesGoingby,jdbcType=VARCHAR},
+      </if>
+      <if test="classesRouteId != null" >
+        #{classesRouteId,jdbcType=DECIMAL},
+      </if>
+      <if test="classesDriverId != null" >
+        #{classesDriverId,jdbcType=DECIMAL},
+      </if>
+      <if test="classesSeatNum != null" >
+        #{classesSeatNum,jdbcType=DECIMAL},
+      </if>
+      <if test="classesCarId != null" >
+        #{classesCarId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.Classes" >
+    update JLSF.CLASSES
+    <set >
+      <if test="classesCode != null" >
+        CLASSES_CODE = #{classesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="classesStartstationid != null" >
+        CLASSES_STARTSTATIONID = #{classesStartstationid,jdbcType=DECIMAL},
+      </if>
+      <if test="classesEndstationid != null" >
+        CLASSES_ENDSTATIONID = #{classesEndstationid,jdbcType=DECIMAL},
+      </if>
+      <if test="classesStarttime != null" >
+        CLASSES_STARTTIME = #{classesStarttime,jdbcType=VARCHAR},
+      </if>
+      <if test="classesEndtime != null" >
+        CLASSES_ENDTIME = #{classesEndtime,jdbcType=VARCHAR},
+      </if>
+      <if test="classesTime != null" >
+        CLASSES_TIME = #{classesTime,jdbcType=VARCHAR},
+      </if>
+      <if test="classesStatus != null" >
+        CLASSES_STATUS = #{classesStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="classesGoingby != null" >
+        CLASSES_GOINGBY = #{classesGoingby,jdbcType=VARCHAR},
+      </if>
+      <if test="classesRouteId != null" >
+        CLASSES_ROUTE_ID = #{classesRouteId,jdbcType=DECIMAL},
+      </if>
+      <if test="classesDriverId != null" >
+        CLASSES_DRIVER_ID = #{classesDriverId,jdbcType=DECIMAL},
+      </if>
+      <if test="classesSeatNum != null" >
+        CLASSES_SEAT_NUM = #{classesSeatNum,jdbcType=DECIMAL},
+      </if>
+      <if test="classesCarId != null" >
+        CLASSES_CAR_ID = #{classesCarId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where CLASSES_ID = #{classesId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.Classes" >
+    update JLSF.CLASSES
+    set CLASSES_CODE = #{classesCode,jdbcType=VARCHAR},
+      CLASSES_STARTSTATIONID = #{classesStartstationid,jdbcType=DECIMAL},
+      CLASSES_ENDSTATIONID = #{classesEndstationid,jdbcType=DECIMAL},
+      CLASSES_STARTTIME = #{classesStarttime,jdbcType=VARCHAR},
+      CLASSES_ENDTIME = #{classesEndtime,jdbcType=VARCHAR},
+      CLASSES_TIME = #{classesTime,jdbcType=VARCHAR},
+      CLASSES_STATUS = #{classesStatus,jdbcType=DECIMAL},
+      CLASSES_GOINGBY = #{classesGoingby,jdbcType=VARCHAR},
+      CLASSES_ROUTE_ID = #{classesRouteId,jdbcType=DECIMAL},
+      CLASSES_DRIVER_ID = #{classesDriverId,jdbcType=DECIMAL},
+      CLASSES_SEAT_NUM = #{classesSeatNum,jdbcType=DECIMAL},
+      CLASSES_CAR_ID = #{classesCarId,jdbcType=DECIMAL}
+    where CLASSES_ID = #{classesId,jdbcType=DECIMAL}
+  </update>
+  
+   
+  
+</mapper>

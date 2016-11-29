@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlsf.dao.BusStationMapper" >
+  <resultMap id="BaseResultMap" type="com.jlsf.entity.BusStation" >
+    <id column="STATION_ID" property="stationId" jdbcType="INTEGER" />
+    <result column="STATION_NAME" property="stationName" jdbcType="VARCHAR" />
+    <result column="STATION_ADDR" property="stationAddr" jdbcType="VARCHAR" />
+    <result column="AREA_ID" property="areaId" jdbcType="INTEGER" />
+    <result column="STATION_TEL" property="stationTel" jdbcType="VARCHAR" />
+    <result column="STATION_STATUS" property="stationStatus" jdbcType="INTEGER" />
+    <result column="STATION_SCALE" property="stationScale" jdbcType="VARCHAR" />
+    <result column="STATION_AREA" property="stationArea" jdbcType="VARCHAR" />
+    <result column="STATION_REMARK" property="stationRemark" jdbcType="VARCHAR" />
+    <result column="STATION_STAFFSUM" property="stationStaffsum" jdbcType="INTEGER" />
+    <result column="STATION_LEGAL" property="stationLegal" jdbcType="VARCHAR" />
+    <result column="STATION_LEGALTEL" property="stationLegaltel" jdbcType="VARCHAR" />
+    <result column="STATION_LEGALID" property="stationLegalid" jdbcType="VARCHAR" />
+    <result column="STATION_COMPANY" property="stationCompany" jdbcType="VARCHAR" />
+    <result column="areaName" property="areaName" jdbcType="VARCHAR" />
+    <result column="cityAreaName" property="cityAreaName" jdbcType="VARCHAR" />
+    <result column="cityAreaId" property="cityAreaId" jdbcType="INTEGER" />
+    <result column="proAreaName" property="proAreaName" jdbcType="VARCHAR" />
+    <result column="proAreaId" property="proAreaId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  <sql id="pager_start" >
+   select * from (
+     select tpager.*,rownum rn from(
+  </sql>
+  <sql id="pager_end" >
+      ) tpager
+  ) where rn &gt;= #{page.c_p_c_min_no} and rn &lt;= #{page.c_p_c_max_no} 
+  </sql>
+  
+
+  
+  
+  
+  <sql id="Base_Column_List" >
+    STATION_ID, STATION_NAME, STATION_ADDR, bs.AREA_ID, STATION_TEL, STATION_STATUS, STATION_SCALE, 
+    STATION_AREA, STATION_REMARK, STATION_STAFFSUM, STATION_LEGAL, STATION_LEGALTEL, 
+    STATION_LEGALID, STATION_COMPANY
+  </sql>
+  
+  <sql id="where" >
+  	where 1=1
+  		<if test="busStation !=null" >
+  			<if test="busStation.stationName !=null and  busStation.stationName !=''">
+  			and  bs.STATION_NAME like '%'|| #{busStation.stationName} ||'%'			
+  			</if>
+  			<if test="busStation.stationStatus !=null">
+  			and  bs.STATION_STATUS = #{busStation.stationStatus}	
+  			</if>
+  			<if test="busStation.proAreaId !=null  " >
+  			and  p.AREA_ID = #{busStation.proAreaId}	
+  			</if>
+  			<if test="busStation.cityAreaId !=null">
+  			and  city.AREA_ID = #{busStation.cityAreaId}	
+  			</if>
+  			<if test="busStation.areaId !=null ">
+  			and  bs.AREA_ID = #{busStation.areaId}	
+  			</if> 			 			
+  		</if>  
+  </sql>
+
+  
+  
+  
+  
+  <select id="list" resultMap="BaseResultMap">
+  	<include refid="pager_start" />
+   select 
+   <include refid="Base_Column_List" />,
+    a.AREA_NAME areaName,city.AREA_NAME cityAreaName,p.AREA_NAME  proAreaName,
+                        city.AREA_ID cityAreaId,p.AREA_ID  proAreaId 
+    from JLSF.BUS_STATION bs 
+    
+    left join area a  on bs.AREA_ID = a.AREA_ID
+    left join area city on a.AREA_PARENTID = city.AREA_ID
+    left join area p on city.AREA_PARENTID = p.AREA_ID
+   
+     <include refid="where" />  
+      order by bs.STATION_ID
+    <include refid="pager_end" />
+     
+  </select>
+  <select id="listBusStation" resultMap="BaseResultMap">
+  	
+   select 
+   <include refid="Base_Column_List" />,
+    a.AREA_NAME areaName,city.AREA_NAME cityAreaName,p.AREA_NAME  proAreaName,
+                        city.AREA_ID cityAreaId,p.AREA_ID  proAreaId 
+    from JLSF.BUS_STATION bs 
+    
+    left join area a  on bs.AREA_ID = a.AREA_ID
+    left join area city on a.AREA_PARENTID = city.AREA_ID
+    left join area p on city.AREA_PARENTID = p.AREA_ID
+   
+     <include refid="where" />  
+      order by bs.STATION_ID
+    
+     
+  </select>
+  
+  <select id="listCount" resultType="java.lang.Integer">
+   select count(1) from BUS_STATION bs
+    left join area a  on bs.AREA_ID = a.AREA_ID
+    left join area city on a.AREA_PARENTID = city.AREA_ID
+    left join area p on city.AREA_PARENTID = p.AREA_ID
+   <include refid="where" />
+  </select>
+  
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />,
+    a.AREA_NAME areaName,city.AREA_NAME cityAreaName,p.AREA_NAME  proAreaName,
+                        city.AREA_ID cityAreaId,p.AREA_ID  proAreaId 
+    from JLSF.BUS_STATION bs
+    left join area a  on bs.AREA_ID = a.AREA_ID
+    left join area city on a.AREA_PARENTID = city.AREA_ID
+    left join area p on city.AREA_PARENTID = p.AREA_ID
+    where bs.STATION_ID = #{stationId,jdbcType=INTEGER}   
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from JLSF.BUS_STATION
+    where STATION_ID = #{stationId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jlsf.entity.BusStation" >
+    insert into JLSF.BUS_STATION (STATION_ID, STATION_NAME, STATION_ADDR, 
+      AREA_ID, STATION_TEL, STATION_STATUS, 
+      STATION_SCALE, STATION_AREA, STATION_REMARK, 
+      STATION_STAFFSUM, STATION_LEGAL, STATION_LEGALTEL, 
+      STATION_LEGALID, STATION_COMPANY)
+    values (SEQ_BUSSTATION.nextval, #{stationName,jdbcType=VARCHAR}, #{stationAddr,jdbcType=VARCHAR}, 
+      #{areaId,jdbcType=INTEGER}, #{stationTel,jdbcType=VARCHAR}, #{stationStatus,jdbcType=INTEGER}, 
+      #{stationScale,jdbcType=VARCHAR}, #{stationArea,jdbcType=VARCHAR}, #{stationRemark,jdbcType=VARCHAR}, 
+      #{stationStaffsum,jdbcType=INTEGER}, #{stationLegal,jdbcType=VARCHAR}, #{stationLegaltel,jdbcType=VARCHAR}, 
+      #{stationLegalid,jdbcType=VARCHAR}, #{stationCompany,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jlsf.entity.BusStation" >
+    insert into JLSF.BUS_STATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stationId != null" >
+        STATION_ID,
+      </if>
+      <if test="stationName != null" >
+        STATION_NAME,
+      </if>
+      <if test="stationAddr != null" >
+        STATION_ADDR,
+      </if>
+      <if test="areaId != null" >
+        AREA_ID,
+      </if>
+      <if test="stationTel != null" >
+        STATION_TEL,
+      </if>
+      <if test="stationStatus != null" >
+        STATION_STATUS,
+      </if>
+      <if test="stationScale != null" >
+        STATION_SCALE,
+      </if>
+      <if test="stationArea != null" >
+        STATION_AREA,
+      </if>
+      <if test="stationRemark != null" >
+        STATION_REMARK,
+      </if>
+      <if test="stationStaffsum != null" >
+        STATION_STAFFSUM,
+      </if>
+      <if test="stationLegal != null" >
+        STATION_LEGAL,
+      </if>
+      <if test="stationLegaltel != null" >
+        STATION_LEGALTEL,
+      </if>
+      <if test="stationLegalid != null" >
+        STATION_LEGALID,
+      </if>
+      <if test="stationCompany != null" >
+        STATION_COMPANY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stationId != null" >
+        #{stationId,jdbcType=INTEGER},
+      </if>
+      <if test="stationName != null" >
+        #{stationName,jdbcType=VARCHAR},
+      </if>
+      <if test="stationAddr != null" >
+        #{stationAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="stationTel != null" >
+        #{stationTel,jdbcType=VARCHAR},
+      </if>
+      <if test="stationStatus != null" >
+        #{stationStatus,jdbcType=INTEGER},
+      </if>
+      <if test="stationScale != null" >
+        #{stationScale,jdbcType=VARCHAR},
+      </if>
+      <if test="stationArea != null" >
+        #{stationArea,jdbcType=VARCHAR},
+      </if>
+      <if test="stationRemark != null" >
+        #{stationRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="stationStaffsum != null" >
+        #{stationStaffsum,jdbcType=INTEGER},
+      </if>
+      <if test="stationLegal != null" >
+        #{stationLegal,jdbcType=VARCHAR},
+      </if>
+      <if test="stationLegaltel != null" >
+        #{stationLegaltel,jdbcType=VARCHAR},
+      </if>
+      <if test="stationLegalid != null" >
+        #{stationLegalid,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCompany != null" >
+        #{stationCompany,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlsf.entity.BusStation" >
+    update JLSF.BUS_STATION
+    <set >
+      <if test="stationName != null" >
+        STATION_NAME = #{stationName,jdbcType=VARCHAR},
+      </if>
+      <if test="stationAddr != null" >
+        STATION_ADDR = #{stationAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        AREA_ID = #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="stationTel != null" >
+        STATION_TEL = #{stationTel,jdbcType=VARCHAR},
+      </if>
+      <if test="stationStatus != null" >
+        STATION_STATUS = #{stationStatus,jdbcType=INTEGER},
+      </if>
+      <if test="stationScale != null" >
+        STATION_SCALE = #{stationScale,jdbcType=VARCHAR},
+      </if>
+      <if test="stationArea != null" >
+        STATION_AREA = #{stationArea,jdbcType=VARCHAR},
+      </if>
+      <if test="stationRemark != null" >
+        STATION_REMARK = #{stationRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="stationStaffsum != null" >
+        STATION_STAFFSUM = #{stationStaffsum,jdbcType=INTEGER},
+      </if>
+      <if test="stationLegal != null" >
+        STATION_LEGAL = #{stationLegal,jdbcType=VARCHAR},
+      </if>
+      <if test="stationLegaltel != null" >
+        STATION_LEGALTEL = #{stationLegaltel,jdbcType=VARCHAR},
+      </if>
+      <if test="stationLegalid != null" >
+        STATION_LEGALID = #{stationLegalid,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCompany != null" >
+        STATION_COMPANY = #{stationCompany,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where STATION_ID = #{stationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jlsf.entity.BusStation" >
+    update JLSF.BUS_STATION
+    set STATION_NAME = #{stationName,jdbcType=VARCHAR},
+      STATION_ADDR = #{stationAddr,jdbcType=VARCHAR},
+      AREA_ID = #{areaId,jdbcType=INTEGER},
+      STATION_TEL = #{stationTel,jdbcType=VARCHAR},
+      STATION_STATUS = #{stationStatus,jdbcType=INTEGER},
+      STATION_SCALE = #{stationScale,jdbcType=VARCHAR},
+      STATION_AREA = #{stationArea,jdbcType=VARCHAR},
+      STATION_REMARK = #{stationRemark,jdbcType=VARCHAR},
+      STATION_STAFFSUM = #{stationStaffsum,jdbcType=INTEGER},
+      STATION_LEGAL = #{stationLegal,jdbcType=VARCHAR},
+      STATION_LEGALTEL = #{stationLegaltel,jdbcType=VARCHAR},
+      STATION_LEGALID = #{stationLegalid,jdbcType=VARCHAR},
+      STATION_COMPANY = #{stationCompany,jdbcType=VARCHAR}
+    where STATION_ID = #{stationId,jdbcType=INTEGER}
+  </update>
+ 
+  <update id="updateStatus" parameterType="java.util.List" >
+    update JLSF.BUS_STATION
+    set 
+      STATION_STATUS = 0 
+    where STATION_ID in 
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    <foreach collection="list" item="busStation">
+    #{busStation.stationId,jdbcType=INTEGER},
+    </foreach>
+    </trim>
+  </update>
+ 
+</mapper>
